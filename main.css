@@ -1,0 +1,718 @@
+/* !! Code par Marc Zuccalli @marc_zcl - 2024 !! */
+/* !! Code retravaillé par Medilien Vincent - vincent.medilien@ens-lyon.fr en 2025 */
+
+/* Custom fonts */
+@font-face {
+			font-family: aquatic;
+			src: url(FindetNemo.ttf);
+			}
+
+@font-face {
+			font-family: water;
+			src: url(Aquino.ttf);
+			}
+
+/* URLS + screen width limit for display toggle */
+:root   {
+		--icon-crepes: url(medias/images/pancake.jpeg);
+		--icon-octopus: url(medias/images/octopus-50-red.png);
+		--icon-boat-b: url(medias/images/boat-50-brown.png);
+		--icon-boat: url(medias/images/boat-50.png);
+		--icon-chevron: url(medias/images/chevron-down-50.png);
+		--icon-menu: url(medias/images/menu.png);
+		--icon-info: url(medias/images/information-50.png);
+		--icon-del:  url(medias/images/delete-50.png);
+		--icon-quit: url(medias/images/bin-50.png);
+		--icon-merge: url(medias/images/merge-50.png);
+		--icon-speech: url(medias/images/speech-bubble.svg);
+		--icon-plus: url(medias/images/plus-50.png);
+		--icon-reset: url(medias/images/reset-50.png);
+		--stand-only: url(medias/images/stand-50.png);
+		--veggie: url(medias/images/vegan-50.png);
+		--soldout: url(medias/images/sold-out-50.png);
+		
+		--link-color:#e7495b;
+		}
+
+/* resolves buggy display on mobile */
+@media (min-resolution: 10dpi) {
+								body {width: 100%}
+								
+								.englob{
+										width: 85%;
+										border-radius: 20px;
+										background-color: rgba(15, 15, 15, .6);
+										margin: auto;
+										}
+								}
+
+@media (min-resolution: 190dpi) {
+								/*body {
+									width: fit-content;
+									padding: 0 3.75%;
+									}*/
+								
+								/*#wrapper {
+										width: fit-content;
+										width: 95%;
+										}*/
+								
+								/*:not(:is(#wrapper)).englob {
+										width: 100%;
+										}*/
+										
+								.englob {
+										background-color: rgba(15, 15, 15, .8);
+										border-radius: 20px;
+										width: 95%;
+										}
+								}
+
+/* fix image color */
+body[black] .invertable {filter: invert(1)}
+body[black] #wrapper .intro-item::before {filter: invert(1)}
+.invertable {invert(0) !important}
+
+/*!!! General style !!!*/
+	body {
+			margin: auto;
+			font-family: verdana;
+			color: white;
+			box-sizing: border-box;
+			}
+
+
+	
+	.title {
+			font-size: 1.5em;
+			margin-bottom: .75em;
+			font-family: water;}
+	
+	a {
+		color: var(--link-color);
+		text-decoration: none;
+		}
+	a:hover {text-decoration: underline}
+	
+	p {text-align: justify}
+	
+	@media (min-width: 0px) {#commande-form {margin: 0; margin-left: 1em;}}
+	@media (min-width: 768px) {#commande-form {margin: auto;}}
+
+/*!!! Banner style !!!*/
+	/* Style based on width and hover abilities */
+	@media (min-width:0px) {
+									#banner {
+											padding: .5em 0;
+											flex-flow: column;
+											gap: 0;
+											--dim: 60vw;
+											margin: 15px auto;
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											}
+									
+									.banner-text {text-align: center}
+									
+									.banner-text {
+											font-size: 30px;
+											}
+									
+									body {											
+											--font-size: 20px;
+											}
+									}
+	
+	@media (hover: hover) {
+							@media (min-width: 500px) {
+														.banner-text {
+																		font-size: 36px;
+																		}
+														}
+													
+							@media (min-width: 642px) {
+														#banner {
+																padding: .5em 7.5vw;
+																flex-flow: row;
+																gap: 2em;
+																--dim: 30vw;
+																}
+														
+														.banner-text {text-align: left}
+														
+														.banner-text {
+																width: 55vw;
+																font-size: 36px;
+																}
+														
+														body {											
+																--font-size: 20px;
+																}
+														}
+													
+							@media (min-width: 768px) {
+														.banner-text {
+																	font-size: 45px;
+																	}
+														}
+													
+							@media (min-width: 1024px) {
+														.banner-text {
+																	font-size: 55px;
+																	}
+														}
+							}
+			
+	@media (hover: none) {
+							@media (min-width: 500px) {
+															.banner-text {
+																		font-size: 36px;
+																		}
+															}
+													
+							@media (min-width: 800px) {
+														#banner {
+																padding: .5em 7.5vw;
+																	flex-flow: row;
+																	gap: 2em;
+																	--dim: 30vw;
+																	}
+															
+															.banner-text {text-align: left}
+															
+															.banner-text {
+																	width: 55vw;
+																	font-size: 36px;
+																	}
+															
+															body {											
+																	--font-size: 20px;
+																	}
+															}
+													
+							@media (min-width: 768px) 
+															.banner-text {
+																		font-size: 45px;
+																		}
+															}
+													
+							@media (min-width: 1024px) {
+															.banner-text {
+																		font-size: 55px;
+																		}
+															}
+							}
+	
+	/* banner general style */
+	/* Banner wrap style */
+	#banner {
+			
+			}
+	
+	/* Banner logo style */
+	.banner-img  {
+					display: inline-block;
+					height: var(--dim);
+					width: var(--dim);
+					max-width: 275px;
+					max-height: 275px;
+					}
+	.banner-img img {
+					height: var(--dim);
+					width: var(--dim);
+					max-width: 275px;
+					max-height: 275px;
+					}
+	
+	/* Banner text style */
+	.banner-text {
+					font-family: aquatic;
+					}
+
+/*!!! NavBar style !!!*/
+	#nav a {
+		color: white;
+		}
+	#nav a {text-decoration: none}
+	
+	/* global wrap */
+	#nav {
+			margin: 25px auto;
+			margin-bottom: 25px;
+			width:max-content;
+			font-size: 30px;
+			}
+	
+	.headers {
+			gap: 1em;
+			display: flex;
+			}
+	
+	/* toggler style */
+	.nav-toggle, .toggle-img {
+				--dim: 30px;
+				height: var(--dim);
+				width: var(--dim);
+				margin-bottom: .5em;
+				}
+	.nav-toggle:hover {cursor: pointer}
+	
+	.nav-toggle {display: flex; flex-flow: column; gap: .25em}
+	.nav-toggle span {
+					display: block;
+					width: 100%;
+					height: .25em;
+					border-radius: 100%/0;
+					/*background: white;*/
+					}
+				
+	/* headers condional style */
+	/* style for small screens*/
+	@media (min-width: 0px) {
+							/* headers style */
+							.headers {
+									flex-flow: column;
+									align-items: center;
+									padding: .5em;
+									background: rgba(15,15,15,.5);
+									box-sizing: border-box;
+									border-radius: 10%/15%;
+									}
+							
+							.headers[hidden='true'] {display: none}
+							.headers[hidden='false'] {display: flex}
+							
+							/* toggle icon style + behavior */
+							/*.nav-toggle.down  ~ .headers {display: flex}*/
+							.nav-toggle.down .toggle-img {transform: rotate(180deg)}
+							
+							.nav-toggle {
+										display: block;
+										}
+							.toggle-img {transition: all .4s ease-in-out;}
+							
+							/* headers wrap */
+							.nav-wrap {
+										display: flex;
+										flex-flow: column;
+										align-items: center;
+										}
+							
+							/* Selected header style */
+							.nav-item.selected::after {width: 0;}
+							.nav-item.selected {font-weight: bold;}
+							}
+	
+	/* nav style for large hovering screens */
+	@media (min-width: 642px)  {
+									.nav-toggle {
+												display: none;
+												}
+									
+									.headers {
+											display:flex;
+											flex-flow: row;
+											}
+									/* breaks toggle specific style */
+									.headers[hidden='true'] {display: flex}
+									.headers[hidden='false'] {display: flex}
+								}
+	
+	/* nav hovering conditional styling */
+	@media (hover: hover)  {
+							/* creates an expandable bar under navitem name */
+							.nav-item::after {							
+												content: "";
+												position: absolute;
+												display: inline-block;
+												z-index: -1;
+												border-bottom: 3px solid white;
+												left: 0; 
+												bottom: 0;
+												width: 0;
+												transition: all 0.3s ease-in-out;
+												}
+							.nav-item {position: relative;} /* for correct positioning */
+	
+							/* navitems hover behavior */
+							.nav-item:hover {cursor: pointer}
+							.nav-item:not(.selected):hover::after {width: 100%;}
+							}
+
+/*!!! Main content style !!!*/
+#warning {display:none}
+
+.englob {
+		--default-color: #9267ab;
+		--focus-color: #0df2f2;
+		--input-border-width: 3px;
+		--update-icon-size: 2.5em;
+		--standard-size: 1em;
+		--medium-size: .75em;
+		--small-size: .5em;
+		--infotext-pos: 2.5em;
+		--left-pad: 0;
+		box-sizing: border-box;
+		padding: 1.5em;
+		}
+
+.warning-wrap{
+			color: red;
+			background-color: rgba(20, 20, 20, .3);
+			padding: .5em 1em;
+			margin-bottom: 1em;
+			border-radius: 5% / 100%;
+			}
+
+/*!!! Image Icons style !!!*/
+		.img {  
+				background-repeat: no-repeat;
+				background-position: center;
+				display: none;
+				}
+		.img:hover {cursor: pointer;}
+		
+		/* Icons padding*/
+		.quit {padding-top: .25em; padding-bottom: .25em;}
+		.del {padding: 0 0	 0 0;}
+		.info {padding: .25em}
+		.merge {padding: .25em .75em .25em .25em}
+		
+		/* Images urls*/
+		.quit .img {background-image: var(--icon-quit);}
+		.merge .img {background-image: var(--icon-merge);}
+		.info .img {background-image: var(--icon-info);}
+		.del .img {background-image: var(--icon-del);}
+		
+		/* Icons sizing*/
+		.info  {
+				width: var(--medium-size);
+				height: var(--medium-size);
+				position: relative;
+				margin-bottom: .35em;
+				}
+			.info .img {
+					background-size: var(--medium-size);
+					height: var(--medium-size);
+					width: var(--medium-size);
+					vertical-align: text-top;
+					}
+		
+		.merge {
+				width: var(--medium-size);
+				height: var(--medium-size);
+				}
+			.merge .img {
+					background-size: var(--medium-size);
+					height: var(--medium-size);
+					width: var(--medium-size);
+					vertical-align: text-top;
+					}
+		
+		.action {
+				width: var(--standard-size);
+				height: var(--standard-size);
+				}
+			.action .img {
+						background-size: var(--standard-size);
+						height: var(--standard-size);
+						width: var(--standard-size);
+						}
+		
+		.del  {
+				position: absolute;
+				right: 0;
+				}
+		/* position fix for first part del icons */
+		.box .del {bottom: .5em;}
+		
+		/* Icons display*/
+		.icon { 
+				display: inline-block;
+				vertical-align: middle;
+				}
+		
+		.container-crepe.invalid .info .img {display: inline-block}
+		.container-crepe.invalid .merge .img {display: inline-block}
+		
+		/* sets hover appearance based on hovering availability */
+		@media (hover:none) {
+							.quit .img {display: inline-block}
+							.input-container[full] .del .img {display: inline-block}
+							}
+		@media (hover:hover) {
+							.container-crepe:hover .quit .img {display: inline-block}
+							.input-container[full]:hover .del .img {display: inline-block}
+							}
+
+/*!!! Footer style !!!*/
+	/* global wrap */
+	#footer {
+			margin: 20px auto;
+			display: flex;
+			}
+	
+	/* section wrap style */
+	.footer-section {
+					flex: 1 0;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					}
+	
+	/* inside wrap style */
+	.external {
+				display:flex;
+				align-items: center;
+				justify-content: center;
+				}
+	
+	/* condtional style */
+	@media (min-width: 0px) {
+					.external {
+						--dim: 45px;
+						}
+					
+					.external .text {
+								display: none;
+								}
+					}
+				
+	@media (min-width: 766px) {
+					.external {
+						--dim: 30px;
+						}
+					
+					.external .text {
+								display: inline;
+								}
+					}
+	
+	.logo a {
+			display: inline-block;
+			width: 100%;
+			height: 100%;
+			}
+	
+	#footer .text a {color: white}
+	#footer .text::after {							
+							content: "";
+							position: absolute;
+							display: inline-block;
+							z-index: -1;
+							border-bottom: 1px solid white;
+							left: 0; 
+							bottom: 0;
+							width: 0;
+							transition: all 0.3s ease-in-out;
+							}
+							.nav-item {position: relative;} /* for correct positioning */
+	
+	.text a:hover {cursor: pointer}
+	#footer .text:hover::after {width: 100%;}
+	
+	/* Icons style */
+	.external .text {
+				padding-left: .5em;
+				}
+	
+	.external .logo {
+				display: inline-block;
+				width: var(--dim);
+				height: var(--dim);
+				background-size: var(--dim);
+				background-position: center;
+				background-repeat: no-repeat;
+				}
+	.external .logo:hover {cursor: pointer}
+	.insta.logo {background-image: url(../images/instagram-50.png);}
+	.contact.logo {background-image: url(../images/mail-50.png);}
+	
+	
+/*!!! Background style !!!*/
+	body {
+  background:
+    linear-gradient(180deg, rgba(40,20,10,0.8) 0%, rgba(10,10,10,0.95) 100%),
+    url("medias/images/viking-background.png") center/cover fixed;
+  background-blend-mode: overlay;
+  animation: glowFire 8s ease-in-out infinite alternate;
+}
+
+@keyframes glowFire {
+  0% { filter: brightness(0.9) sepia(0.3); }
+  100% { filter: brightness(1.2) sepia(0.6); }
+}
+
+
+/* !!! ŒUFS DE DRAGON TEXTURÉS QUI TOMBENT !!! */
+.bubble {
+  position: absolute;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.5) 80%),
+    url("medias/images/dragon-egg-texture.png") center/cover no-repeat;
+  border-radius: 50% 50% 45% 55% / 55% 45% 55% 45%;
+  box-shadow:
+    inset -5px -10px 20px rgba(0, 0, 0, 0.4),
+    inset 5px 10px 20px rgba(255, 255, 255, 0.25),
+    0 0 25px rgba(255, 230, 150, 0.25);
+  opacity: 0.95;
+  transform: rotate(var(--rot));
+  animation:
+    fall var(--d) linear infinite,
+    glow 4s ease-in-out infinite alternate;
+  transition: filter 0.4s ease-in-out;
+}
+
+/* chaque œuf a sa position, taille et vitesse */
+.bubble[id='1'] { --rot: 10deg; top: -20%; left: 10%; height: 120px; width: 90px; --d: 9s; }
+.bubble[id='2'] { --rot: -15deg; top: -30%; left: 25%; height: 100px; width: 75px; --d: 7s; }
+.bubble[id='3'] { --rot: 5deg; top: -25%; left: 45%; height: 140px; width: 100px; --d: 10s; }
+.bubble[id='4'] { --rot: -5deg; top: -35%; left: 65%; height: 160px; width: 110px; --d: 12s; }
+.bubble[id='5'] { --rot: 8deg; top: -40%; left: 80%; height: 130px; width: 95px; --d: 8s; }
+.bubble[id='6'] { --rot: -10deg; top: -50%; left: 5%; height: 150px; width: 105px; --d: 11s; }
+.bubble[id='7'] { --rot: 12deg; top: -45%; left: 50%; height: 110px; width: 85px; --d: 9s; }
+.bubble[id='8'] { --rot: -8deg; top: -60%; left: 75%; height: 170px; width: 120px; --d: 13s; }
+
+/* animation de chute */
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(var(--rot));
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(110vh) rotate(calc(var(--rot) + 20deg));
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(130vh) rotate(calc(var(--rot) + 40deg));
+    opacity: 0;
+  }
+}
+
+/* effet lumineux d’éclosion */
+@keyframes glow {
+  0%, 100% {
+    filter: brightness(1) drop-shadow(0 0 0 rgba(255, 220, 100, 0));
+  }
+  50% {
+    filter: brightness(1.3) drop-shadow(0 0 20px rgba(255, 230, 150, 0.8));
+  }
+}
+
+/* petit effet au survol (pour l’interaction) */
+.bubble:hover {
+  filter: brightness(1.4) drop-shadow(0 0 25px rgba(255, 255, 200, 0.8));
+}
+
+
+/* Amélioration du fond */
+
+
+body {
+  background:
+    radial-gradient(circle at bottom center, rgba(0, 0, 255, 0.6), rgba(200, 255, 255, 0.9)), /* assombrit globalement */
+    url("medias/images/viking-wood-runes.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+/* lumière plus discrète et rougeoyante (feu viking faible) */
+@keyframes background-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 1; }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center bottom, rgba(180, 70, 20, 0.25), transparent 70%);
+  animation: background-glow 8s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* effet "verre noir" : plus opaque, plus sombre */
+.englob {
+  background: rgba(5, 5, 10, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  width: 85%;
+  margin: auto;
+  padding: 1.5em;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+}
+
+/* haute résolution : même ambiance mais plus nette */
+@media (min-resolution: 190dpi) {
+  .englob {
+    background: rgba(10, 10, 20, 0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+}
+
+/* petits écrans : renforce encore le contraste pour lecture claire */
+@media (max-width: 768px) {
+  .englob {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+}
+
+
+/* !!! Étincelles remontant du bas !!! */
+.sparks {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* pour ne pas bloquer les clics */
+  overflow: hidden;
+  z-index: 5;
+}
+
+.spark {
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 40px;
+  background: radial-gradient(circle, rgba(255, 140, 80, 1) 0%, rgba(255, 80, 0, 0.3) 80%);
+  border-radius: 50%;
+  opacity: 0.9;
+  animation: rise var(--d) ease-out infinite;
+  filter: blur(0.5px);
+}
+
+/* animation de montée + légère dérive */
+@keyframes rise {
+  0% {
+    transform: translateX(0) translateY(0) scale(1);
+    opacity: 0.9;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(var(--x)) translateY(-110vh) scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* personnalisation des trajectoires et durées */
+.spark:nth-child(1) { left: 10%; --x: 15px;  --d: 4s; animation-delay: 0s; }
+.spark:nth-child(2) { left: 20%; --x: -10px; --d: 5s; animation-delay: 1s; }
+.spark:nth-child(3) { left: 35%; --x: 25px;  --d: 6s; animation-delay: 2s; }
+.spark:nth-child(4) { left: 50%; --x: -20px; --d: 5.5s; animation-delay: 0.5s; }
+.spark:nth-child(5) { left: 65%; --x: 10px;  --d: 4.5s; animation-delay: 1.5s; }
+.spark:nth-child(6) { left: 75%; --x: -15px; --d: 5s; animation-delay: 0.3s; }
+.spark:nth-child(7) { left: 85%; --x: 30px;  --d: 6.5s; animation-delay: 2.5s; }
+.spark:nth-child(8) { left: 95%; --x: -25px; --d: 4.8s; animation-delay: 1.2s; }

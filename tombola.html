@@ -1,0 +1,655 @@
+<!-- Code par Marc Zuccalli @marc_zcl - 2024 -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Oceandeps - Home</title>
+		
+		<link rel="icon" href="medias/images/logo.jpg">
+		<meta name="theme-color" content="">
+		<meta name="msapplication-navbutton-color" content="">
+		<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta property="og:title" content="Oceandeps - Tombola">
+		<meta property="og:type" content="website">
+		
+		<link rel='stylesheet' type='text/css' href='main.css'></link>
+		
+		<script src='medias/files/main.js'></script>
+		
+		<style>
+			#wrapper p {
+						text-indent: 2em;
+						text-align: justify;
+						font-size: inherit);
+						}
+			
+			#wrapper h2 {text-align: center; font-size: inherit;}
+			
+			.participate {
+						background-color: rgba(20,20,20,0);
+						caret-color: white;
+						color:white;
+						font-size: var(--font-size);
+						border: 2px solid var(--default-color);
+						border-radius: 6px;
+						cursor: pointer;
+						margin: .5em auto;
+						padding: 0 .75em;
+						height: 2.5em;
+						display: block;
+						}
+			
+			.participate:hover {@media (hover:hover) {transform: scale(1.05);}}
+			
+			.wrap  {
+					display: none;
+					margin: auto;
+					margin-top: .25em;
+					margin-bottom: .75em;
+					width: fit-content;
+					}
+			
+			.input-container {position: relative}
+			
+			.textentry {
+						border: none;
+						border-bottom: var(--input-border-width) solid var(--default-color);
+						border-radius: 3px;
+						padding: .2em 3em .2em .5em;
+						color:white;
+						font-size: calcc(var(--font-size));
+						margin-top: 0;
+						background-color: rgba(20,20,20,0);
+						}
+			.textentry:focus{border-color: var(--focus-color); outline: none}
+					
+			/* focused text input */
+			.textentry:focus{border-color: var(--focus-color);}
+			
+			/* not empty invalid text input */
+			.textentry:not(:placeholder-shown):invalid {
+														border: none;
+														border-bottom: var(--input-border-width) solid red;
+														border-radius: 3px;
+														color: white;
+														}
+			
+			
+			/*!! Pouples Section !!*/
+				.holder {
+						display: flex;
+						flex-flow:column;
+						position: relative;
+						}
+				
+				.family-list-wrap  {
+									display: flex;
+									flex-flow: column;
+									gap: .25em;
+									justify-content: space-around;
+									@media (min-resolution: 190dpi) {font-size: calc(.75*var(--font-size));}
+									}
+				:is(.family-list-wrap, .full-family-wrap) img {width: 100%;}
+				
+				.full-family-wrap .section {
+											width: 80%;
+											margin: auto;
+											position: relative;
+											margin-bottom: 1em;
+											}
+				
+				.row{
+						display: flex;
+						gap: .75em;
+						}
+				
+				.section {
+						width: 100%;
+						margin-bottom: 2em;
+						display: flex;
+						flex-flow: column;
+						align-items: center;
+						}
+				.section img {@media (min-width: 0px) {width: 95%}}
+				.section img {@media (min-width: 1024px) {width: 80%}}
+				
+				img {
+					transition: all .3s ease-in-out;
+					border-radius: 10%;
+					}
+				img:hover  {
+							transform: scale(1.02);
+							border-radius: 0;
+							cursor: pointer;
+							}
+				
+				
+				.desc {
+						text-align: center;
+						margin: auto;
+						}
+						
+				.img.speech {
+							background-image: var(--icon-speech);
+							position: absolute;
+							background-size: 80%;
+							width: 15%;
+							height: 15%;
+							background-position: 40% 35%;
+							display: none;
+							align-items: center;
+							justify-content: center;
+							top: 44%;
+							right: 17%;
+							color: black;
+							font-size: 140%;
+							font-weight: bolder;
+							z-index: 2;
+							}
+				@media (hover:hover) {.full-family-wrap img:hover ~ .img.speech {
+															display: flex;
+															top: 47%;
+															right: 14%
+															}
+									}
+				
+				.full-family-wrap .desc {margin-top: 1em}
+				
+			/*!! Image Icons style !!*/
+					.img {  
+							background-repeat: no-repeat;
+							background-position: center;
+							display: none;
+							}
+					.img:hover {cursor: pointer;}
+					
+					/* Icons padding*/
+					.del {padding: 0 0	 0 0;}
+					
+					/* Images urls*/
+					.del .img {background-image: var(--icon-del);}
+					
+					.del  {
+							position: absolute;
+							right: 0;
+							bottom: .5em;
+							}
+					
+					/* Icons display*/
+					.icon { 
+							display: inline-block;
+							vertical-align: middle;
+							}
+					
+					/* sets hover appearance based on hovering availability */
+					@media (hover:none) {
+										.input-container[full] .del .img {display: inline-block}
+										}
+					@media (hover:hover) {
+										.input-container[full]:hover .del .img {display: inline-block}
+										}
+				
+				/*!! Carousel style !!*/
+				.carousel-wrap	{
+										@media (min-width:0px) {--h: 32vh;}
+										@media (min-width:250px) {--h: 37vh;}
+										/*@media (min-width:380px) {--h: 42vh;}*/
+										@media (min-width:450px) {--h: 45vh;}
+										@media (min-width:536px) {--h: 50vw;}
+										@media (min-width:872px) {--h: 45vw;}
+										display: none;
+										align-items: center;
+										position: fixed;
+										height: var(--h);
+										z-index: 1;
+										top: calc(0.5*(100% - var(--h)));
+										left: 5%;
+										background: rgba(15,15,15,.8);
+										width: 90%;
+										justify-content: center;
+										gap: .5em;
+										}
+				.img.chev {
+								--size: 2em;
+								background-image: var(--icon-chevron);
+								background-size: var(--size);
+								width: var(--size);
+								height: var(--size);
+								display: inline-block;
+								}
+								
+				.prev {transform: rotate(90deg)}
+				.next {transform: rotate(270deg)}
+				
+				.carousel {
+								overflow: hidden;
+								width: 80%;
+								z-index: 1;
+								}
+				
+				.carousel-inputs	{display: none}
+				
+				
+				.carousel-lbls {
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									gap: .5em;
+									margin-top: 1em;
+									}
+				.carousel-lbls label {
+											display: inline-block;
+											width: 1em;
+											aspect-ratio: 1;
+											border-radius: 50%;
+											background-color: #777;
+											}
+				.carousel-lbls label {cursor: pointer}
+				
+				.carousel-imgs {
+										--nb: 24;
+										width: calc(var(--nb)*100%);
+										display: flex;
+										height: calc(0.8*var(--h));
+										transition: all .3s ease-in-out;
+										justify-content: space-around;
+										}
+				.carousel-imgs img {
+											/*aspect-ratio: 1;
+											height: 100%;
+											margin: 0 calc(0.5*(100%/var(--nb) - 0.8*var(--h)));*/
+											}
+				
+				.close {
+						--size: 1.5em;
+						position: absolute;
+						right: 2%;
+						top: 2%;
+						background-size: var(--size);
+						width: var(--size);
+						height: var(--size);
+						background-image: var(--icon-plus);
+						transform: rotate(45deg);
+						display: block;
+						}
+						
+				/* JS addition */
+				.carousel:has(#img1:checked) {.carousel-imgs {transform: translateX(calc(-0*(100%/var(--nb))))}  .img1 {background-color: #fff}}
+				.carousel:has(#img2:checked) {.carousel-imgs {transform: translateX(calc(-1*(100%/var(--nb))))}  .img2 {background-color: #fff}}
+				.carousel:has(#img3:checked) {.carousel-imgs {transform: translateX(calc(-2*(100%/var(--nb))))}  .img3 {background-color: #fff}}
+				.carousel:has(#img4:checked) {.carousel-imgs {transform: translateX(calc(-3*(100%/var(--nb))))}  .img4 {background-color: #fff}}
+				.carousel:has(#img5:checked) {.carousel-imgs {transform: translateX(calc(-4*(100%/var(--nb))))}  .img5 {background-color: #fff}}
+				.carousel:has(#img6:checked) {.carousel-imgs {transform: translateX(calc(-5*(100%/var(--nb))))}  .img6 {background-color: #fff}}
+				.carousel:has(#img7:checked) {.carousel-imgs {transform: translateX(calc(-6*(100%/var(--nb))))}  .img7 {background-color: #fff}}
+				.carousel:has(#img8:checked) {.carousel-imgs {transform: translateX(calc(-7*(100%/var(--nb))))}  .img8 {background-color: #fff}}
+				.carousel:has(#img9:checked) {.carousel-imgs {transform: translateX(calc(-8*(100%/var(--nb))))}  .img9 {background-color: #fff}}
+				.carousel:has(#img10:checked) {.carousel-imgs {transform: translateX(calc(-9*(100%/var(--nb))))}  .img10 {background-color: #fff}}
+				.carousel:has(#img11:checked) {.carousel-imgs {transform: translateX(calc(-10*(100%/var(--nb))))}  .img11 {background-color: #fff}}
+				.carousel:has(#img12:checked) {.carousel-imgs {transform: translateX(calc(-11*(100%/var(--nb))))}  .img12 {background-color: #fff}}
+				.carousel:has(#img13:checked) {.carousel-imgs {transform: translateX(calc(-12*(100%/var(--nb))))}  .img13 {background-color: #fff}}
+				.carousel:has(#img14:checked) {.carousel-imgs {transform: translateX(calc(-13*(100%/var(--nb))))}  .img14 {background-color: #fff}}
+				.carousel:has(#img15:checked) {.carousel-imgs {transform: translateX(calc(-14*(100%/var(--nb))))}  .img15 {background-color: #fff}}
+				.carousel:has(#img16:checked) {.carousel-imgs {transform: translateX(calc(-15*(100%/var(--nb))))}  .img16 {background-color: #fff}}
+				.carousel:has(#img17:checked) {.carousel-imgs {transform: translateX(calc(-16*(100%/var(--nb))))}  .img17 {background-color: #fff}}
+				.carousel:has(#img18:checked) {.carousel-imgs {transform: translateX(calc(-17*(100%/var(--nb))))}  .img18 {background-color: #fff}}
+				.carousel:has(#img19:checked) {.carousel-imgs {transform: translateX(calc(-18*(100%/var(--nb))))}  .img19 {background-color: #fff}}
+				.carousel:has(#img20:checked) {.carousel-imgs {transform: translateX(calc(-19*(100%/var(--nb))))}  .img20 {background-color: #fff}}
+				.carousel:has(#img21:checked) {.carousel-imgs {transform: translateX(calc(-20*(100%/var(--nb))))}  .img21 {background-color: #fff}}
+				.carousel:has(#img22:checked) {.carousel-imgs {transform: translateX(calc(-21*(100%/var(--nb))))}  .img22 {background-color: #fff}}
+				.carousel:has(#img23:checked) {.carousel-imgs {transform: translateX(calc(-22*(100%/var(--nb))))}  .img23 {background-color: #fff}}
+				.carousel:has(#img24:checked) {.carousel-imgs {transform: translateX(calc(-23*(100%/var(--nb))))}  .img24 {background-color: #fff}}
+		</style>
+	</head>	
+	
+	<body>
+	    <div id='banner'>
+	        <span class='banner-img'>
+	            <a href=''><img src='medias/images/octochef.png'></a>
+	        </span>
+			<span class='banner-text'>
+				Bienvenue chez l'équipe OceanDeps DSMSSSH !
+			</span>
+	    </div>
+		
+		<div id='nav'>
+	        <div class='nav-wrap'>
+				<div class='nav-toggle' onclick='toggleNav(event.target)'>
+					<img src='medias/images/menu-50.png' class='toggle-img invertable'>
+				</div>
+	            <div class='headers' hidden='true'>
+	                <span class='nav-item'>
+	                    <a class='nav-item-name' href='index.html'>
+	                        Accueil
+	                    </a>
+	                </span>
+	                <span class='nav-item'>
+	                    <a class='nav-item-name' href='orders.html'>
+	                        Commandes
+	                    </a>
+	                </span>
+                    <span class='nav-item selected'>
+	                    <a class='nav-item-name'>
+	                        Tombola
+	                    </a>
+	                </span>
+	            </div>
+	        </div>
+	    </div>
+	    
+		<div id='background'>
+			<div id='1' class='bubble'></div>
+			<div id='2' class='bubble'></div>
+			<div id='3' class='bubble'></div>
+			<div id='4' class='bubble'></div>
+			<div id='5' class='bubble'></div>
+			<div id='6' class='bubble'></div>
+			<div id='7' class='bubble'></div>
+			<div id='8' class='bubble'></div>
+		</div>
+		
+		<div id='warning'>
+			<div class='warning-wrap englob'>
+					<span><small>Tu utlises actuellement Brave. Cela peut causer des problèmes d'affichage de la couleur des images, rendant la navigation sur le site difficile. Il est conseillé dans ce cas d'utiliser un autre navifateur comme Chrome ou Firefox</small>
+			</div>
+		</div>
+		
+		<div id='wrapper' class='englob'>
+			<div class='pres-text'>
+				<h2>Thon-B'Eau-Là</h2>
+
+				<p>C'est l'heure de la thon-b'eau-là !</p>
+				
+				<p>Pour participer, rien de plus simple : tout le monde peut participer gratuitement, et obtenir une participation supplémentaire par crêpe commandée afin de maximiser ses chances !</p>
+
+				<p><b>ATTENTION</b> La tombola est exclusive aux membres de l'ENS - il est requis de fournir votre adresse mail de l'ENS pour pouvoir participer.</p>
+				
+				<p>Le tirage s'effectuera lors de la Poulp'arty (<b>jeudi 14/11</b>) à 00h00. N'hésitez pas à venir y assister !<p>
+				
+				<p>Les inscriptions sont ouvertes jusqu'à <span style='font-weight:bold;text-decoration:underline'>jeudi 14/11 22h.</span></p>
+				
+				<p>Pour savoir tout ce qu'il y à gagner, c'est juste en dessous !</p>
+				
+				<form id='form'>
+				<input type='button' value='Je veux participer !' class='participate boxentry' onclick="document.querySelector('.wrap').style.display = 'block';event.target.style.display = 'none'">
+				<div class='wrap'>
+					<label for='Mail'>Mail ENS : </label>
+					<div class='input-container'>
+						<input class='textentry' type='email' pattern="([a-zA-Z0-9,.,_,\+,\-,%])+@ens-lyon\.fr" name='Mail' id='mail' autocomplete=off placeholder='' required>
+						<div class='icon action del'><span class='img invertable' onclick='removeContent(event.target)' title='Réinitialiser la case'></span></div>
+					</div>
+					<input class='participate' id='submitter' type='submit' value='Envoyer'>
+				</div>
+				</form>
+				
+				<div class='delim' style='border:2px solid white'></div>
+				
+				<p>Une thon-b'eau-là, pourquoi pas, mais pour gagner quoi ? De formidables octopeluches évidemment ! Et faites à la main !</p>
+				
+				<p>Rencontre chacune des membres de la poulpoteam et découvre qui pourrait bien être ton prochain compagnon !</p>
+				
+				<p>Clique sur une image pour avoir un aperçu de la vie des octopeluches !</p>
+				
+				
+			</div>
+			
+			<div class='holder'>
+				<div class='carousel-wrap'>
+					<div class='img close' onclick='document.querySelector(".carousel-wrap").style.display = "none"'></div>
+					<span class='img icon chev prev' onclick='carouselPrev()'></span>
+					<div class='carousel'>
+									<div class='carousel-imgs'>
+									</div>
+									<div class='carousel-inputs'>
+									</div>
+									<div class='carousel-lbls'>
+									</div>
+								</div>
+					<span class='img icon chev next' onclick='carouselNext()'></span>
+				</div>
+				
+				<div class='full-family-wrap'>
+					<div class='section'>
+						<img src='medias/images/PXL_20241113_125359959.jpg'>
+						<span class='img speech'>Hi</span>
+						<div class='desc'>
+							<h2>La poulpo de famille</h2>
+							
+						</div>
+					</div>
+				</div>
+				
+				<div class='family-list-wrap'>
+					<div class='row one'>
+						<div class='section'>
+							<img src='medias/images/tripoulpes-main.jpg' onclick='openy(1)'>
+							<div class='desc'>
+								<h2>Les Tripoulpes</h2>
+								Les 3 ados de la bande, en quête de nouvelles aventures et toujours prêts à faire les 400 coups. Ils seront malheureusement séparès à l'adoption :(
+							</div>
+						</div>
+						<div class='section'>
+							<img src='medias/images/gardocto-main.jpg' onclick='openy(5)'>
+							<div class='desc'>
+								<h2>Gardocto</h2>
+								Notre protecteur à tous (et surtout de vos poulpocrêpes face au chaparidpoulpe !). Il aura permis de mener à bien une grande partie de vos commandes.
+							</div>
+						</div>
+					</div>
+					<div class='row two'>
+						<div class='section'>
+							<img src='medias/images/octimide-main.jpg'  onclick='openy(8)'>
+							<div class='desc'>
+								<h2>Octimide</h2>
+								On ne sait pas grand-chose de lui, si ce n'est qu'Octochef veille dessus.
+							</div>
+						</div>
+						<div class='section'>
+							<img src='medias/images/poulpofetard-main.jpg' onclick='openy(11)'>
+							<div class='desc'>
+								<h2>Poulpofêtard</h2>
+								Le plus festif des octopus... Que ce soit vodka pure ou eau salée, il n'est jamais sans son "petit" verre à shot pour ses fameuses soirées.
+							</div>
+						</div>
+					</div>
+					<div class='row three'>
+						<div class='section'>
+							<img src='medias/images/octogourmand-main.jpg' onclick='openy(14)'>
+							<div class='desc'>
+								<h2>Octogourmand</h2>
+								Le plus grand appétit, surtout pendant la préparation... Octochef l'a même tenu à l'écart de celle de vos crêpes pour vous en laisser.
+							</div>
+						</div>
+						<div class='section'>
+							<img src='medias/images/poulpo-escobar-main.jpg' onclick='openy(16)'>
+							<div class='desc'>
+								<h2>Poulpo Escobar</h2>
+								Le dissident de l'équipe, qui aurait créé son propre réseau de contrebande de crêpes. Il a milité pour les space crêpes, sans succès...
+							</div>
+						</div>
+					</div>
+					<div class='row four'>
+						<div class='section'>
+							<img src='medias/images/goutipoulpe-main.jpg' onclick='openy(19)'>
+							<div class='desc'>
+								<h2>Goutipoulpe</h2>
+								Ce cobaye (ou goûteur suivant la crêpe) des nouveaux tests de  saveur... des mélanges classiques (chocolat ou jambo,) aux plus exotiques (hawaïenne). Et même la dernière en date : la chèvre miel !
+							</div>
+						</div>
+						<div class='section'>
+							<img src='medias/images/chapardipoulpe-main.jpg' onclick='openy(22)'>
+							<div class='desc'>
+								<h2>Chapardipoulpe</h2>
+								Ce chenapan ne nous a pas facilité la tâche pour vous fournir vos poulpo'crêpes puisqu'il a la mauvaise habitude des les dérober avant la livraison. Il vous offrira 3 crêpes de votre choix piochées dans son stock personnel à l'adoption.
+							</div>
+						</div>
+					</div>
+					<div class='row five'>
+						<div class='section' style='display: flex; align-items: center; flex-flow: column'>
+							<img src='medias/images/octochef.png' style='width: 50%; height: auto'>
+							<div class='desc'>
+								<h2>Octomystère</h2>
+								La grande vedette de la  thon-b'eau-la ! Elle prégère garder son identité secrète pour l'instant !
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id='footer' class='englob'>
+			<div class='footer-section'>
+				<div class='external'>
+					<span class='logo insta invertable' title='Retrouvez-nous sur Instagram'>
+						<a href='https://www.instagram.com/dsmsssh_2024/' target='_blank'> </a>
+					</span>
+					<span class='text insta'><a href='https://www.instagram.com/dsmsssh_2024/' target='_blank'>Retrouvez nous sur Instagram !</a></span>
+				</div>
+			</div>
+			
+			<div class='footer-section'>
+				<div class='external'>
+					<span class='logo contact invertable' title='Contactez-nous'>
+						<a href='contact.html'> </a>
+					</span>
+					<span class='text contact'><a href='contact.html'>Contactez-nous</a></span>
+				</div>
+			</div>
+		</div>
+	
+		<script>
+		const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+		
+		document.querySelector('#mail').addEventListener('change', completionUpdate)
+		document.querySelector('#mail').addEventListener('focusout', completionUpdate)
+		
+		// Disables page refresh on submit
+		var form = document.getElementById("form");
+		function handleForm(event) { event.preventDefault(); } 
+		form.addEventListener('submit', handleForm);
+		
+		// remove useless elements
+		window.addEventListener('load', deletion)
+		async function deletion()  {
+									// teste le navigateur
+									baseBrave = await navigator.brave?.isBrave()
+									brave = (baseBrave || false) && window.matchMedia('(hover: none)').matches;
+									//console.log(brave)
+									
+									//document.querySelector('#warning').style.display = baseBrave ? 'block':'none';
+									//brave ? document.querySelector('body').setAttribute('black','') : null;
+									//brave ? document.querySelector('style').textContent += '\n\n#time::-webkit-calendar-picker-indicator {filter: invert(100%)}' : null;
+									
+									date = formatDate();
+									(date.day > 14 || (date.day === 14 && date.hours > 21)) ? document.querySelector('#form').style.display = 'none':null;
+									
+									
+									inps = document.querySelector('.carousel-inputs')
+									lbls = document.querySelector('.carousel-lbls')
+									imgs = document.querySelector('.carousel-imgs')
+									for (i=1;i<25;i++) {
+											inp = document.createElement('input');
+											i == 1 ? inp.checked = true:null;
+											inp.setAttribute('type','radio');
+											inp.setAttribute('id',`img${i}`);
+											inps.appendChild(inp);
+											
+											lbl = document.createElement('label');
+											lbl.setAttribute('for',`img${i}`);
+											lbl.setAttribute('class',`img${i}`);
+											lbl.setAttribute('onclick',`reset(${i})`);
+											lbls.appendChild(lbl);
+											
+											img = document.createElement('img');
+											img.setAttribute('src',`medias/images/carousel-${i}.jpg`);
+											imgs.appendChild(img);
+											
+											//document.querySelector('head style').textContent += `\n.carousel:has(#img${i}:checked) {.carousel-imgs {transform: translateX(calc(-${i-1}*(100%\/var(--nb))))}  .img${i} {background-color: #fff}}`;
+											}
+									}
+		
+		document.querySelector('form').onsubmit = async function(e) {
+																			button = document.querySelector('#submitter')
+																			button.disabled = true
+																			button.value = 'Chargement...'
+																			
+																			// Collect form data and sends it to analyze
+																			var sendData = {}
+																			sendData.FormType = 'Participation';
+																			sendData.Mail = document.querySelector('#mail').value;
+																			
+																			jsonData = JSON.stringify(sendData)
+																			//console.log(sendData)
+																			
+																			// Request and processing
+																			try {
+																				// Send the JSON data to the script via POST method and waits for proceding
+																				const response = await fetch('https://script.google.com/macros/s/AKfycbyhU2W9DPiu9jYGvI7BgJwhwzAunig6tiu699bVmklwRzNqk7FvxpO9cBKBtP0oiw6G/exec', {
+																				  method: 'POST',
+																				  body: jsonData,
+																				  mode: 'no-cors',
+																				  headers: { 'Content-Type': 'application/json' }
+																				});
+																				
+																				// waits for answer and interprets it as JSON data
+																				try {const result = await response.json()} catch (e) {console.log('No response received', e)}
+																				
+																				// Result of request (result)
+																				button.value = 'Participation enregistrée !';
+																				document.querySelector('.wrap').style.display = 'none';
+																				alert('Participation enregistrée !');
+																				
+																			} catch (error) {
+																				button.disabled = false
+																				button.value = 'Envoyer'
+																			
+																				alert("Ta participation n'a pas pu être envoyée !");
+																				console.log(error);
+																			}
+																			}
+		
+		
+		// get screen dpi
+		function scrResol() {dpi=null;for (i=0; i<600; i++) {window.matchMedia(`(resolution:${i}dpi)`).matches ? dpi=i:null};return dpi}
+		
+		// remove input content
+		function removeContent(e) {
+									e.findParent('.input-container').querySelector('.textentry').value = '';
+									//e.findParent('.input-container').querySelector('.textentry').focus();
+									e.findParent('.input-container').removeAttribute('full');
+									}
+		
+		// Checks which textentries are not empty
+		function completionUpdate() {
+									inp = document.querySelector('#mail');
+									
+									if (inp.value !== '') {inp.findParent('.input-container').setAttribute('full', '')
+									} else {try {inp.findParent('.input-container').removeAttribute('full')} catch(e) {console.log(e)}}
+									}
+		
+		function carouselNext() {
+									curr = document.querySelector('.carousel-inputs input:checked')
+									next = curr.nextElementSibling === null ? curr.parentNode.firstElementChild : curr.nextElementSibling;
+									next.checked = true;
+									curr.checked = false;
+									}
+		
+		function carouselPrev() {
+									curr = document.querySelector('.carousel-inputs input:checked')
+									next = curr.previousElementSibling === null ? curr.parentNode.lastElementChild : curr.previousElementSibling;
+									next.checked = true;
+									curr.checked = false;
+									}
+		
+		function openy(i) {
+							reset(i);
+							document.querySelector('.carousel-wrap').style.display = 'flex';
+							}
+		
+		function reset(i) {
+							for (j=1;j<25;j++) {
+												document.querySelector(`#img${j}`).checked = i === j;
+												}
+							}
+		</script>
+	</body>
+</html>

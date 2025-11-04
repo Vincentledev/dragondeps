@@ -1,0 +1,312 @@
+<!-- Code par Marc Zuccalli @marc_zcl - 2024 -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Oceandeps - Home</title>
+		
+		<link rel="icon" href="medias/images/logo.png">
+		<meta name="theme-color" content="">
+		<meta name="msapplication-navbutton-color" content="">
+		<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta property="og:title" content="Oceandeps - Home">
+		<meta property="og:type" content="website">
+		
+		<link rel='stylesheet' type='text/css' href='main.css'></link>
+		
+		<script src='medias/files/main.js'></script>
+		
+		<style>
+			#intro {margin-bottom: 1.5em;}
+			
+			/*!!! Intro Style !!!*/
+				/*!! INTRO section !!*/
+				/* outer wrap */
+				.englob a {color: var(--link-color)}
+				
+				.intro-wrap {
+								font-size: calc(var(--font-size));
+								margin: .5em var(--left-pad);
+								text-align: center;
+								display: flex;
+								flex-flow: column;
+								gap: 1.5em;
+								justify-content: center;
+								width: fit-content;
+								margin: auto;
+								}
+				
+				/* dep name style  */
+				.intro-img {
+							margin: auto;
+							width: 10%
+							}
+				.intro-img img {width: 100%}
+				
+				/* paragraphs special style */
+				.insta-call {padding-top: 1.25em;}
+				
+				/*!! WRAPPER section !!*/
+				#wrapper {font-size: calc(var(--font-size));}
+				
+				#wrapper :is(li, p) {padding-bottom: 1em; line-height: 1.4em;}
+				#wrapper p {text-indent: 2em}
+				#wrapper li::marker {content: ''}
+				#wrapper li::before {
+									--bckg-dim: 1.5em;
+									content: '';
+									display: inline-block;
+									background-size: var(--bckg-dim);
+									background-repeat: no-repeat;
+									background-position: center;
+									height: var(--bckg-dim);
+									width: var(--bckg-dim);
+									margin-right: .5em;
+									background-image: var(--icon-boat);
+									position: relative;
+									top: .25em;
+									}
+				.date-info {
+							text-decoration: underline;
+							font-weight: bold;
+							}
+				
+			/*!! Image Icons style !!*/
+					.img {  
+							background-repeat: no-repeat;
+							background-position: center;
+							display: none;
+							}
+					.img:hover {cursor: pointer;}
+					
+					/* Icons padding*/
+					.quit {padding-top: .25em; padding-bottom: .25em;}
+					.del {padding: 0 0	 0 0;}
+					.info {padding: .25em}
+					.merge {padding: .25em .75em .25em .25em}
+					
+					/* Images urls*/
+					.quit .img {background-image: var(--icon-quit);}
+					.merge .img {background-image: var(--icon-merge);}
+					.info .img {background-image: var(--icon-info);}
+					.del .img {background-image: var(--icon-del);}
+					
+					/* Icons sizing*/
+					.info  {
+							width: var(--medium-size);
+							height: var(--medium-size);
+							position: relative;
+							margin-bottom: .35em;
+							}
+						.info .img {
+								background-size: var(--medium-size);
+								height: var(--medium-size);
+								width: var(--medium-size);
+								vertical-align: text-top;
+								}
+					
+					.merge {
+							width: var(--medium-size);
+							height: var(--medium-size);
+							}
+						.merge .img {
+								background-size: var(--medium-size);
+								height: var(--medium-size);
+								width: var(--medium-size);
+								vertical-align: text-top;
+								}
+					
+					.action {
+							width: var(--standard-size);
+							height: var(--standard-size);
+							}
+						.action .img {
+									background-size: var(--standard-size);
+									height: var(--standard-size);
+									width: var(--standard-size);
+									}
+					
+					.del  {
+							position: absolute;
+							right: 0;
+							}
+					/* position fix for first part del icons */
+					.box .del {bottom: .5em;}
+					
+					/* Icons display*/
+					.icon { 
+							display: inline-block;
+							vertical-align: middle;
+							}
+					
+					.container-crepe.invalid .info .img {display: inline-block}
+					.container-crepe.invalid .merge .img {display: inline-block}
+					
+					/* sets hover appearance based on hovering availability */
+					@media (hover:none) {
+										.quit .img {display: inline-block}
+										.input-container[full] .del .img {display: inline-block}
+										}
+					@media (hover:hover) {
+										.container-crepe:hover .quit .img {display: inline-block}
+										.input-container[full]:hover .del .img {display: inline-block}
+										}
+					
+					/* Infobulle style */
+					.infotext {
+								position: absolute;
+								left: var(--infotext-pos);
+								top: .25em;
+								white-space: nowrap;
+								font-size: .5em;
+								display: none;
+								border: 1px solid darkred;
+								background-color: #111;
+								padding: .25em;
+								border-radius: 4px;
+								z-index: 2;
+								}
+					.crepes-choix .info .img:hover ~ .infotext {display: inline}
+			
+			/* css for each-bubble added on js load */
+		</style>
+	</head>	
+
+	<div class="sparks">
+ 	<div class="spark"></div>
+    <div class="spark"></div>
+    <div class="spark"></div>
+    <div class="spark"></div>
+    <div class="spark"></div>
+    <div class="spark"></div>
+    <div class="spark"></div>
+    <div class="spark"></div>
+    </div>
+	
+	<body>
+	    <div id='banner'>
+	        <span class='banner-img'>
+	            <a href=''><img src='medias/images/logo.png'></a>
+	        </span>
+			<span class='banner-text'>
+				Bienvenue chez l'équipe Asgardienne du DSMSSSH !
+			</span>
+	    </div>
+		
+		<div id='nav'>
+	        <div class='nav-wrap'>
+				<div class='nav-toggle' onclick='toggleNav(event.target)'>
+					<img src='medias/images/menu.png' class='toggle-img invertable'>
+				</div>
+	            <div class='headers' hidden='true'>
+	                <span class='nav-item selected'>
+	                    <a class='nav-item-name'>
+	                        Accueil
+	                    </a>
+	                </span>
+	                <span class='nav-item'>
+	                    <a class='nav-item-name' href='orders.html'>
+	                        Commandes
+	                    </a>
+	                </span>
+                    <span class='nav-item'>
+	                    <a class='nav-item-name' href='tombola.html'>
+	                        Tombola
+	                    </a>
+	                </span>
+	            </div>
+	        </div>
+	    </div>
+	    
+		<div id='background'>
+			<div id='1' class='bubble'></div>
+			<div id='2' class='bubble'></div>
+			<div id='3' class='bubble'></div>
+			<div id='4' class='bubble'></div>
+			<div id='5' class='bubble'></div>
+			<div id='6' class='bubble'></div>
+			<div id='7' class='bubble'></div>
+			<div id='8' class='bubble'></div>
+		</div>
+		
+		<div id='warning'>
+			<div class='warning-wrap englob'>
+					<span><small>Tu utlises actuellement Brave. Cela peut causer des problèmes d'affichage de la couleur des images, rendant la navigation sur le site difficile. Il est conseillé dans ce cas d'utiliser un autre navifateur comme Chrome ou Firefox</small>
+			</div>
+		</div>
+		
+		<div id='intro' class='englob'>
+			<div class='intro-wrap'>
+				<div class='intro'>
+					<h3>GRRRAAAAHAAH !</h3>
+					<div class='intro-img'>
+					<img src='medias/images/logo.png'>
+					</div>
+					<h5>Que tu viennes du midgard, du vinland, ou que tu descende du Valhala, ici, tu pourras te rassasier !</h5>
+					</p>Ici, c'est le site du &#x2728; DSMSSSH 2025 DSM3SHGARD &#x2728; pour commander tes crêpes préférées et suivre nos activités. Crêpes sucrées, salées, vegan tout droit sorties de la gastronomie viking et <a href='/orders.html'>bien plus encore...</a> Ne salive pas une seconde de plus et <a href='/orders.html'>passe commande</a> ! &#x1F95E;</p>
+					<p>Tu trouveras de quoi te régaler à coup sûr selon ton envie du moment !</p>
+					
+					<p class='insta-call'> Rejoins-nous sur <a href='https://www.instagram.com/dsmsssh_2024/'>Insta</a> et ne passe pas à côté de notre superbe <a href='tombola.html'>Tombala d'Odin !</a> ;)</p>
+				</div>
+			</div>
+		</div>
+		
+		<div id='wrapper' class='englob'>
+			<h2>Au programme</h2>
+
+			<li class='intro-item'>Vente de de nos crêpes Viking toute la semaine ! Livraisons de 7h à 00h jusqu'à samedi soir (hors trêve du 14/11) !</li>
+			
+			<li class='intro-item'>Hormis les crêpes, une grande festive Viking t'attend le <span class='date-info'>(date secrete)</span> on vous attends nombreux pour festoyer, rippailer et bien plus encore !</li>
+
+			<li class='intro-item'>En parlant de rippailler, un grand buffet aura lieu le <span class='date-info'>(date secrete)</span> ! En partenariat avec les autres équipes, on vous fera profiter - entre autre - d'un repas à la VIKING</li>
+
+			<li class='intro-item'>Nous organiserons aussi le <span class='date-info'>(date secrete)</span> <span class='countdown'></span> <b> l'évenement </b></li>
+			
+			<div class='delim' style='border:2px solid white'></div>
+			
+			<p>Nos crêpes nous servent à financer tous les événements cités plus haut afin qu'ils soient gratuitement accessibles pour tous.tes. L'ensemble des bénéfices restants à la fin des Interdeps sera reversé à l'<a href='https://bloomassociation.org/notre-mission/' target='_blank'>association Bloom</a> </p>
+
+			<p style='text-align:center;'>Bonne navigation sur notre site, et  ! &#x1FAE7;</p>
+		</div>
+		
+		<div id='footer' class='englob'>
+			<div class='footer-section'>
+				<div class='external'>
+					<span class='logo insta invertable' title='Retrouvez-nous sur Instagram'>
+						<a href='https://www.instagram.com/dsmsssh_2024/' target='_blank'> </a>
+					</span>
+					<span class='text insta'><a href='https://www.instagram.com/dsmsssh_2024/' target='_blank'>Retrouvez nous sur Instagram !</a></span>
+				</div>
+			</div>
+			
+			<div class='footer-section'>
+				<div class='external'>
+					<span class='logo contact invertable' title='Contactez-nous'>
+						<a href='contact.html'> </a>
+					</span>
+					<span class='text contact'><a href='contact.html'>Contactez-nous</a></span>
+				</div>
+			</div>
+		</div>
+	
+		<script>
+		const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+		
+		// remove useless elements
+		window.addEventListener('load', deletion)
+		async function deletion()  {
+									// teste le navigateur
+									baseBrave = await navigator.brave?.isBrave()
+									brave = (baseBrave || false) && window.matchMedia('(hover: none)').matches;
+									//console.log(brave)
+									
+									//document.querySelector('#warning').style.display = baseBrave ? 'block':'none';
+									//brave ? document.querySelector('body').setAttribute('black','') : null;
+									//brave ? document.querySelector('style').textContent += '\n\n#time::-webkit-calendar-picker-indicator {filter: invert(100%)}' : null;
+									}
+		
+		// get screen dpi
+		function scrResol() {dpi=null;for (i=0; i<600; i++) {window.matchMedia(`(resolution:${i}dpi)`).matches ? dpi=i:null};return dpi}
+		</script>
+	</body>
+</html>

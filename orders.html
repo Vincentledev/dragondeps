@@ -1,0 +1,1243 @@
+<!-- Code par Marc Zuccalli @marc_zcl - 2024 -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Commandes</title>
+		
+		<link rel="icon" href="medias/images/logo.jpg">
+		<meta name="theme-color" content="">
+		<meta name="msapplication-navbutton-color" content="">
+		<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta property="og:title" content="Commandes">
+		<meta property="og:type" content="website">
+		
+		<link rel='stylesheet' type='text/css' href='main.css?v=1.1'></link>
+		
+		<script src='medias/files/main.js'></script>
+		<script src='medias/files/orders.js'></script>
+		
+		<style>
+			/*!!! Crepe List Style !!!*/
+				#wrapper {--size: 1em;}
+				
+				.list-intro {
+							font-family: water;
+							margin-bottom: 1.5em;
+							}
+				
+				/* outer wrap */
+				.crepes-list-wrap {
+								font-size: calc(var(--font-size));
+								margin: .5em var(--left-pad);
+								--allerg-color: #cbd4a7;;
+								line-height: 1.5em;
+								}
+				
+				/* section style  */
+				.category {
+							position: relative;
+							/*width: 50%;*/
+							white-space: nowrap;
+							}
+				
+				/* custom list marker */
+				.list-item::marker {content: ''}
+				.category::before, .list-item::before {
+									--bckg-dim: 1em;
+									content: '';
+									display: inline-block;
+									background-size: var(--bckg-dim);
+									background-repeat: no-repeat;
+									background-position: center;
+									height: var(--bckg-dim);
+									width: var(--bckg-dim);
+									margin-right: .5em;
+									}
+				
+				/* type wrapper */
+				.category::before {
+									background-size: calc(1.5*var(--bckg-dim));
+									height: calc(1.5*var(--bckg-dim));
+									width: calc(1.5*var(--bckg-dim));
+									position: relative;
+									top: .25em;
+									}
+					.list-item::before {background-image: var(--icon-crepes);}
+					.category::before {background-image: var(--icon-octopus);}
+				
+				/* global wrapper */
+				.crepes-list {
+								display: flex;
+								justify-content: space-around;
+								}
+				
+				/* allergènes items */
+				.allerg {
+						white-space: normal;
+						line-height: 1.25em;
+						margin-bottom: .5em;
+						}
+				
+				/* unavailable ones */
+				.soldout {
+						text-decoration: line-through;
+						}
+				
+				.li-wrap {
+						display: flex;
+						align-items: center;
+						gap: .25em;
+						}
+				
+				.img.crepe-info {
+							height: var(--size);
+							width: var(--size);
+							background-size: var(--size);
+							display: none;
+							}
+				.veggie {background-image: var(--veggie)}
+				.notav {background-image: var(--soldout)}
+				.standex {background-image: var(--stand-only)}
+				
+				.list-item.vegan ~ .veggie {display: inline-block}
+				.list-item.soldout ~ .notav {display: inline-block}
+				.list-item.stand ~ .standex {display: inline-block}
+				
+				
+				.infos {
+						display: flex;
+						margin: auto;
+						align-items: center;
+						justify-content: space-around;
+						width: fit-content;
+						font-size: calc(0.5*var(--font-size));
+						gap: 1.5em;
+						@media (min-resolution: 190dpi) {flex-flow: column};
+						}
+				.infos .img {display: inline-block}
+				
+				
+				@media (min-width: 0px) {.crepes-list {flex-flow: column} .list-part {width: 100%}}
+				@media (min-width: 678px) {.crepes-list {flex-flow: row} .list-part {width:47.5%}}
+				/* icons style */
+				.info.permanent .img {display: inline-block}
+				.info.permanent {position: static}
+				.info.permanent .infotext {
+											top: 3em;
+											border: none;
+											color: black;
+											padding: 1em;
+											width: 80%;
+											display: none;
+											opacity: 0;
+											animation: fade-out .5s forwards;
+											color: white;
+											--translation: -15px;
+											font-size: calc(0.75* var(--font-size));
+											}
+				
+				.info.permanent .infotext.show { 
+												animation: fade-in .5s forwards;
+												}
+				
+				@keyframes fade-in {from {transform: translateY(var(--translation)); opacity: 0} to {transform: translateY(0px); opacity: 1}}
+				@keyframes fade-out {from {transform: translateY(0px); opacity: 1} to {transform: translateY(var(--translation)); opacity: 0}}
+				
+				.info.permanent .del	{
+										--mult: 2;
+										padding-right: .5em;
+										float: right;
+										width: calc(var(--mult)*var(--standard-size));
+										height: calc(var(--mult)*var(--standard-size));
+										}
+				.info.permanent .del .img {
+											width: calc(var(--mult)*var(--standard-size));
+											height: calc(var(--mult)*var(--standard-size));
+											background-size: calc(var(--mult)*var(--standard-size));
+											}
+										
+			/*!!! Form style !!!*/
+				#commande-form-wrap {
+							margin:15px 0 0 var(--left-pad);
+							/*border: 2px solid var(--default-color);*/
+							padding: 2em 0;
+							border-radius: 16px;
+							position: relative;
+							width: fir-content;
+							}
+				
+				/*!! Overlay !!*/
+					#overlay   {
+								width: 100%;
+								height: 100%;
+								position: absolute;
+								z-index: 1;
+								display: none;
+								align-items: center;
+								justify-content: center;
+								}
+					
+					/* content zone*/
+					.overlay-content   {
+										width: 80%;
+										height: fit-content;
+										background-color: #111;
+										text-align: center;
+										padding: 1em;
+										box-sizing: border-box;
+										}
+					
+					/* overlay image */
+					.overlay-img {
+								width: 70%;
+								aspect-ratio: 1;
+								background-size: 100%;
+								background-position: center;
+								background-repeat: no-repeat;
+								margin: auto;
+								}
+					
+					/* overlay top text */
+					.overlay-header {
+									font-family: water;
+									font-size: 3em;
+									}
+					
+					/* overlay bottom text wrap*/
+					.overlay-text {font-size: 1.5em}
+					
+					/* overlay texts */
+					.text {display: none}
+					
+					/* Adaptable stable based on overmay state */ 
+					#overlay[active] {display: flex}
+					#overlay[active] ~ #commande-form {filter: blur(3px)}
+					
+					#overlay[early] .text.early {display: block}
+					#overlay[late] .text.late {display: block}
+					#overlay[complete] .text.complete {display: block}
+					#overlay[preco] .text.preco {display: block}
+					
+					#overlay:is([early],[late]) .overlay-img {background-image: url(medias/images/unhappy_octopus.png);}
+					#overlay:is([complete],[preco]) .overlay-img {background-image: url(medias/images/poulpe_livreur.png);}
+					
+					
+					
+				/*!! Main form style !!*/
+					input:focus {outline: none;}
+					
+					@media (hover: hover) {
+											@media (min-width: 0px) {
+															/* font-size of all form */
+															#wrapper {--font-size: 16px}
+															}
+											@media (min-width: 550px) {
+															/* font-size of all form */
+															#wrapper {--font-size: 18px}
+															}
+											@media (min-width: 620px) {
+															/* font-size of all form */
+															#wrapper {--font-size: 20px}
+															}
+											@media (min-width: 892px) {
+															/* font-size of all form */
+															#wrapper {--font-size: 21px}
+															}
+											@media (min-width: 1024px) {
+															/* font-size of all form */
+															#wrapper {--font-size: 22px}
+															}
+											}
+					
+					@media (hover: none) {
+											@media (min-width: 0px) {
+															/* font-size of all form */
+															#wrapper {--font-size: 22px}
+															}
+											@media (min-width: 550px) {
+															/* font-size of all form */
+															#wrapper {--font-size: 25px}
+															}
+											@media (min-width: 620px) {
+															/* font-size of all form */
+															#wrapper {--font-size: 28px}
+															}
+											@media (min-width: 892px) {
+															/* font-size of all form */
+															#wrapper {--font-size: 30px}
+															}
+											@media (min-width: 1024px) {
+															/* font-size of all form */
+															#wrapper {--font-size: 32px}
+															}
+											}
+					
+				/*!! First section !!*/
+					.main-info {width: 50%}
+					
+					/* input outter wrap style */
+					.box {
+						margin: .5em 0;
+						margin-bottom: 1.5em;
+						padding: .2em 0 .2em .5em;
+						border-left: var(--input-border-width) solid var(--default-color);
+						display: flex;
+						flex-direction: column;
+						}
+					
+					/* first section all input styles */
+					select, input, textarea {
+											background-color: rgba(20,20,20,0);
+											caret-color: white;
+											color:white;
+											font-size: var(--font-size);
+											margin-top: .5em;
+											}
+					
+					.box .textentry {
+									width: 100%;
+									box-sizing: border-box;
+									padding-right: 1.25em;
+									}
+					
+					.box .boxentry  {
+									border: 1px solid var(--default-color);
+									border-radius: 6px;
+									}
+					.boxentry:hover {cursor: pointer}
+					
+					/* time input specific */
+					#time {
+							padding: .25em; width: 5.65em
+							}
+						/* set clock color to white */
+					.time-wrap {
+								flex-flow: nowrap;
+								display: flex;
+								gap: .5em;
+								}
+					.disclaimer.bigger {padding-left: 0; font-size: calc(.75*var(--font-size))}
+					
+					/* paiement method specific (+ date addin) */
+					#pay, #don, #date {
+						padding: .25em;
+						width: 6.25em;
+						height: 2em;
+						}
+					#date {width: fit-content; min-width: 6.25em; flex: 0 0 auto} /*overrides width*/
+					:is(#pay,#don):focus {
+								background-color: rgba(15, 15, 15, .85);
+								}
+					
+					.box.ardoise, .box .don-spec {display: none}
+					
+					/* donation specific
+					#don::after {content: '€'}*/
+					.don-spec {
+								align-items: baseline;
+								white-space: nowrap;
+								gap: .5em;
+								width: 12em;
+								margin-top: .5em;
+								}
+					.don-dft   {
+								display: flex;
+								flex-flow: row;
+								align-items: baseline;
+								gap: .75em;
+								}
+					.don-dft-desc {display: inline}
+					.don-spec-desc {display: none}
+					#don-spec {width: 5em}
+					
+					
+					/* comments input specific */
+					#comments {
+								border: 2px solid var(--default-color);
+								border-radius: 6px;
+								margin-top: .75em;
+								padding: .5em;
+								max-width: 100%;
+								min-width: 100%;
+								min-height: 5em;
+								}
+					#comments:focus {border-color: var(--focus-color);}
+					
+					#vegan {margin: .125em .375em; flex: 0 1;}
+					
+					
+				/*!! General style : both sections !!*/
+					label {font-size: calc(0.9*var(--font-size));}
+					
+					/* inputs wrapper with del icon */
+					.input-container {
+										display: flex;
+										position: relative;
+										align-items: center;
+										}
+					
+					.input-container input {flex: 1 0}
+					
+					/* written text input*/
+					.textentry {
+								border: none;
+								border-bottom: var(--input-border-width) solid var(--default-color);
+								border-radius: 3px 0;
+								padding: .2em 3em .2em .5em;
+								color:white;
+								font-size: calcc(var(--font-size));
+								margin-top: 0;
+								}
+					
+					/* focused text input */
+					.textentry:focus{border-color: var(--focus-color);}
+					
+					/* not empty invalid text input */
+					.textentry:not(:placeholder-shown):invalid {
+																border: none;
+																border-bottom: var(--input-border-width) solid red;
+																border-radius: 3px;
+																color: white;
+																}
+					
+					#time[invalid] {
+									border-color: red;
+                      				border-width: 2px;
+									}
+					
+					
+				/*!! Second Section style !!*/
+					/* section wrap style */
+					fieldset {
+								border: 2px solid var(--default-color);
+								border-radius: .3em 1.5em;
+								font-size: var(--font-size);
+								width: max-content;	
+								}
+					
+					fieldset
+					.crepes-container-wrapper {
+												display: flex;
+												flex-flow: column;
+												gap: .75em;
+												}
+					
+					/* Tree : crepes-choix > [crepes-container-wrapper > container-crepe = 1 input line > [container-left = input zone > [container-left-top = type input > input-container = input + del icon | merge] | container-left-bottom = amount] | [container-right = quit icon]] | crepe-footer */
+					
+					/* input line wrap style */
+					@media (min-width: 0px) {
+										.container-left {
+														display: flex;
+														flex-flow: column;
+														align-items: flex-start;
+														
+														}
+										.quit {padding-left: .0}
+										
+										.container-crepe .textentry.crepe-type {padding-right: 0; margin-right: 1em;}
+										
+										.container-left-bottom .crepe-lbl {padding-right: 2.55em;}
+										}
+					
+					@media (min-width: 876px) {
+										.container-left {
+														display: flex;
+														flex-flow: row;
+														align-items: center;
+														}
+										
+										.quit {padding-left: .75em}
+										
+										.container-crepe .textentry.crepe-type {padding-right: 0; margin-right: 1em;}
+										}
+					
+					.container-crepe {
+									display: flex;
+									align-items: center;
+									justify-content: space-around;
+									flex-flow: row;
+									}
+					
+					.container-crepe .container-section {
+														display:flex;
+														align-items: center;
+														}
+					
+					.container-left-top {align-items: center;}
+					
+					/* overrrides global padding for .del host*/
+					.container-crepe .textentry {margin-bottom:  .5em;}
+					#total, .container-crepe .textentry.amount {padding-right: .25em;}
+					
+					/* Invalid crepe type input */
+					.container-crepe.invalid .crepe-type {border-color: red}
+					
+					/* both second sections input style */
+					.crepe {margin-top: 0}
+					
+					/* amoount input style */
+					.amount {width: 3.5em}
+					
+					/* second section labels style */
+					.crepe-lbl {padding-right:.5em; font-size: .75em; margin-bottom: .8em}
+					.footer-right .crepe-lbl {margin-bottom: 0;}
+					
+					/* Crepe list style adapted for mobile end */
+					.subsubwrap {
+								display: flex;
+								align-items: center;
+								}
+					
+					@media (min-resolution: 190dpi) {
+													#commande-form {margin-left: 0}
+													
+													.crepe-lbl {margin-bottom: 0}
+													
+													.container-crepe .textentry.crepe-type {
+																							width: 85%;
+																							flex: 0 1  auto;
+																							margin-right: 0;
+																							}
+													
+													.subsubwrap {
+																gap: .25em;
+																}
+													.subsubwrap .merge {padding: .25em}
+													
+													.container-crepe {	
+																		flex-flow: column;
+																		align-items: baseline;
+																		border-bottom: 1px dashed var(--default-color);
+																		}
+													
+													.container-crepe .container-section {
+																						flex-flow: column;
+																						align-items: baseline;
+																						}
+													
+													.container-right {margin: auto}
+													
+													.crepe-footer {gap: .75em}
+													
+													.footer-left {
+																display: flex;
+																justify-content: space-around;
+																gap: .5em;
+																}
+													.footer-left .update {margin-left: 0}
+													
+													fieldset {font-size: calc(0.85* var(--font-size));}
+													
+													.icon.info {margin-bottom: 0}
+													}
+					
+				
+				/*!! End section */
+					/* Crepe end section / buttons style*/
+					.crepe-footer {margin-top: 1.5em; display: flex; align-items:center}
+					.footer-left, .footer-right {flex: 1 0}
+					.footer-right  {
+									display: flex;
+									justify-content: end;
+									align-items: center;
+									}
+					
+					/* Action buttons */
+					.update {
+							height: fit-content;
+							width: fit-content;
+							border: 2px solid var(--default-color);
+							border-radius: 50%;
+							cursor: pointer;
+							margin-left: 1em;
+							display: inline-block;
+							}
+					
+					.update-img  {
+								height: var(--update-icon-size);
+								width: var(--update-icon-size);
+								background-repeat: no-repeat;
+								background-position: center;
+								background-size: 1em;
+								border: none;
+								margin-top: 0;
+								}
+					
+					/* buttons imgs */
+					#add {background-image: var(--icon-plus);}
+					#reset, #reset-all {background-image: var(--icon-reset);}
+					
+					#total {width: 3.5em; height: 1.25em; border-top: var(--input-border-width) solid var(--default-color); margin-top: 0; text-align: center}
+				
+				/*!! Submiting style !!*/
+					#submitting {border: 2px solid var(--default-color); border-radius: 6px; cursor: pointer; margin-top: 1.5em; padding: 0 .75em; height: 2.5em}
+				
+					/* blocked buttons style*/
+					#submitting[disabled], .update:has(:is(#add,#reset,#reset-all)[disabled]) {cursor: auto; border-color: silver}
+					:is(#submitting, .update-img):not([disabled]):hover {cursor:pointer}
+				
+				/*!! Tombola zone !!*/
+					/* input */
+					#tombola, #free-part   {
+								margin: .125em .375em;
+								}
+					.box:is(.tombola,.vegan) .check:hover {cursor: pointer;}
+					.box:is(.tombola,.vegan) .check ~ label:hover {cursor: pointer;}
+					.box:is(.tombola,.vegan) .check:hover {@media (hover:hover) {transform: scale(1.15)};}
+					
+					/* Tombola wrap */
+					.box.tombola   {
+									margin-top: 1.5em;
+									}
+					
+					/* First Checkbox zone */
+					.tombola-one, .free-part-wrap {
+								display: flex;
+								flex-flow: row;
+								align-items: center;
+								}
+					.tombola-one, .box.vegan, .don-dft-desc {white-space: nowrap}
+					
+					/* Infotext + icon zone */
+					.tombola-two {
+								font-size: calc(.6*var(--font-size));
+								text-align: justify;
+								}
+					
+					/* Tombola info / infotext style */
+					.tombola .icon.permanent .infotext {/* overrides some of .info.permanent style*/
+														box-sizing: border-box;
+														position: fixed;
+														width: 75%;
+														left: 12.5%;
+														}
+						
+					.tombola .permanent .infotext h2 {text-align: center}
+					.tombola .icon .infotext p {
+													text-indent: 1.5em;
+													line-height: 1.25em;
+													white-space: normal;
+													}
+					
+					/* Hideable zone */
+					.tombola-three {
+									width: 50%;
+									margin-top: 1em;
+									display: none;
+									}
+					
+					/* Second checkbox input */
+					.free-part-wrap {margin-top: .75em}
+					#free-part ~ label {margin: 0; white-space: nowrap}
+					
+					.disclaimer {
+								font-size: calc(.5*var(--font-size));
+								padding-left: .75em;
+								}
+					
+					.tombola .info {/* overrides some of .info.permanent style*/
+									position: relative;
+									top: 0.125em;
+									--medium-size: var(--standard-size); /*locally overrides variable value*/
+									margin: 0;
+									}
+					
+					.tombola .icon.del {/* idem: overrides some style */
+										padding-right: 0;
+										position: relative;
+										}
+				
+				/*!! Image Icons style !!*/
+					.img {  
+							background-repeat: no-repeat;
+							background-position: center;
+							display: none;
+							}
+					.img:hover {cursor: pointer;}
+					
+					/* Icons padding*/
+					.quit {padding-top: .25em; padding-bottom: .25em;}
+					.del {padding: 0 0	 0 0;}
+					.info {padding: .25em}
+					.merge {padding: .25em .75em .25em .25em}
+					
+					/* Images urls*/
+					.quit .img {background-image: var(--icon-quit);}
+					.merge .img {background-image: var(--icon-merge);}
+					.info .img {background-image: var(--icon-info);}
+					.del .img {background-image: var(--icon-del);}
+					
+					/* Icons sizing*/
+					.info  {
+							width: var(--medium-size);
+							height: var(--medium-size);
+							position: relative;
+							margin-bottom: .35em;
+							}
+						.info .img {
+								background-size: var(--medium-size);
+								height: var(--medium-size);
+								width: var(--medium-size);
+								vertical-align: text-top;
+								}
+					
+					.merge {
+							width: var(--medium-size);
+							height: var(--medium-size);
+							}
+						.merge .img {
+								background-size: var(--medium-size);
+								height: var(--medium-size);
+								width: var(--medium-size);
+								vertical-align: text-top;
+								}
+					
+					.action {
+							width: var(--standard-size);
+							height: var(--standard-size);
+							}
+						.action .img {
+									background-size: var(--standard-size);
+									height: var(--standard-size);
+									width: var(--standard-size);
+									}
+					
+					.del  {
+							position: absolute;
+							right: 0;
+							}
+					/* position fix for first part del icons */
+					.box .del {bottom: .5em;}
+					
+					/* Icons display*/
+					.icon { 
+							display: inline-block;
+							vertical-align: middle;
+							}
+					
+					.container-crepe.invalid .info .img {display: inline-block}
+					.container-crepe.invalid .merge .img {display: inline-block}
+					
+					/* sets hover appearance based on hovering availability */
+					@media (hover:none) {
+										.quit .img {display: inline-block}
+										.input-container[full] .del .img {display: inline-block}
+										}
+					@media (hover:hover) {
+										.container-crepe:hover .quit .img {display: inline-block}
+										.input-container[full]:hover .del .img {display: inline-block}
+										}
+					
+					/* Infobulle style */
+					.infotext {
+								position: absolute;
+								left: var(--infotext-pos);
+								top: .25em;
+								white-space: nowrap;
+								font-size: .5em;
+								display: none;
+								border: 1px solid darkred;
+								background-color: #111;
+								padding: .25em;
+								border-radius: 4px;
+								z-index: 2;
+								}
+					.crepes-choix .info .img:hover ~ .infotext {display: inline}
+			
+			/* css for each-bubble added on js load */
+		</style>
+	</head>
+	
+	<body>
+	    <div id='banner'>
+	        <span class='banner-img'>
+	            <a href='https://oceandeps.fr'><img src='medias/images/logo.png'></a>
+	        </span>
+			<span class='banner-text'>
+				Bienvenue chez l'équipe Smashgard DSMSSSH !
+			</span>
+	    </div>
+		
+		<div id='nav'>
+	        <div class='nav-wrap'>
+				<div class='nav-toggle' onclick='toggleNav(event.target)'>
+					<!-- <img src='medias/images/menu-50.png' class='toggle-img invertable'> -->
+					<span class='bar one'></span>
+					<span class='bar two'></span>
+					<span class='bar three'></span>
+				</div>
+	            <div class='headers' hidden='true'>
+	                <span class='nav-item'>
+	                    <a class='nav-item-name' href='index.html'>
+	                        Accueil
+	                    </a>
+	                </span>
+	                <span class='nav-item selected'>
+	                    <a class='nav-item-name'>
+	                        Commandes
+	                    </a>
+	                </span>
+					<span class='nav-item' href='tombola.html'>
+						<a class='nav-item-name' href='tombola.html'>
+							Tombola
+						</a>
+					</span>
+	            </div>
+	        </div>
+	    </div>
+	    
+		<div id='background'>
+			<div id='1' class='bubble'></div>
+			<div id='2' class='bubble'></div>
+			<div id='3' class='bubble'></div>
+			<div id='4' class='bubble'></div>
+			<div id='5' class='bubble'></div>
+			<div id='6' class='bubble'></div>
+			<div id='7' class='bubble'></div>
+			<div id='8' class='bubble'></div>
+		</div>
+		
+		<div id='warning'>
+			<div class='warning-wrap englob'>
+					<span><small>Tu utlises actuellement Brave. Cela peut causer des problèmes d'affichage de la couleur des images, rendant la navigation sur le site difficile. Il est conseillé dans ce cas d'utiliser un autre navifateur comme Chrome ou Firefox</small>
+			</div>
+		</div>
+		
+		<div id='wrapper' class='englob'>
+			<div class='crepes-list-wrap'>
+				<div class='list-intro'>
+					Régalez-vous avec nos superbes crêpes disponibles à la commande !
+				</div>
+				
+				<div class='crepes-list'>
+					<div class='list-first-part list-part'>
+						<div class='category sucre'>
+							<span>Les sucrées</span>
+							<div class='icon info permanent'>
+								<span class='img invertable' onclick='toggleFade(event.target)'></span>
+								<span class='infotext'>
+									<div class='icon action del invertable'>
+										<span class='img' onclick='toggleFade(event.target)'></span>
+									</div>
+									<span>Allergènes :</span>
+									<ul class='allerg-list'>
+										<li class='allerg'>Pâte à crêpes : Lait, gluten, oeufs</li>
+										<li class='allerg'>Pâte à crêpes vegan : maïzena, lait de SOJA</li>
+										<li class='allerg'>Pâte à tartiner : Lactose, Lactosérum, Soja, Noisettes. Traces éventuelles d'autres fruits à coques</li>
+										<li class='allerg'>Beurre de cachuètes : cacahuètes, arachides</li>	
+                                  </ul>
+								</span>
+							</div>
+						</div>
+						
+						<ul class='crepe-list cat-sucre'>
+							<span class='li-wrap'>
+								<li class='list-item vegan'>Sucre</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+							<span class='li-wrap'>
+								<li class='list-item'>Beurre et sucre</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+                          	<span class='li-wrap'>
+								<li class='list-item stand'>Miel</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+                          	<span class='li-wrap'>
+								<li class='list-item vegan stand'>Beurre de cacahuètes</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+                          	<span class='li-wrap'>
+								<li class='list-item vegan stand'>Sirop d'agave</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+                          	<span class='li-wrap'>
+								<li class='list-item stand'>Banane-chocolat</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+							<span class='li-wrap'>
+								<li class='list-item'>Pâte à tartiner</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+							<span class='li-wrap'>
+								<li class='list-item'>Caramel beurre salé</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+							<span class='li-wrap'>
+								<li class='list-item vegan'>Confiture de fraise</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+							<span class='li-wrap'>
+								<li class='list-item vegan'>Confiture d'abricot</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+						</ul>
+					</div>
+					
+					<div class='list-second-part list-part'>
+						<div class='category sale'>
+							<span>Crêpes salées</span>
+							<div class='icon info permanent'>
+								<span class='img invertable' onclick='toggleFade(event.target)'></span>
+								<span class='infotext'>
+									<div class='icon action del invertable'>
+										<span class='img' onclick='toggleFade(event.target)'></span>
+									</div>
+									<span>Allergènes :</span>
+									<ul class='allerg-list'>
+										<li class='allerg'>Pâte à crêpes : Lait, gluten, oeufs</li>
+										<li class='allerg'>Pâte à crêpes vegan : maïzena, lait de SOJA</li>
+										<li class='allerg'>Emmental : Lactose</li>
+									</ul>
+								</span>
+							</div>
+						</div>
+						<ul class='crepe-list cat-sale'>
+							<span class='li-wrap'>
+								<li class='list-item'>Emmental</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+							<!-- <li class='list-item'>Emmental</li> -->
+							<!-- <li class='list-item'>Chèvre miel</li> -->
+							<!-- <li class='list-item'>Jambon emmental</li> -->
+							<span class='li-wrap'>
+								<li class='list-item vegan'>Oignons caramélisés</li>
+								<span class='img crepe-info veggie'></span>
+								<span class='img crepe-info standex'></span>
+								<span class='img crepe-info notav'></span>
+							</span>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			<div class='infos'>
+				<span><span class='img crepe-info veggie'></span> Vegan </span>
+				<span><span class='img crepe-info standex'></span> Uniquement aux stands, sous réserve de stock</span>
+				<span><span class='img crepe-info notav'></span> Épuisé (pour l'instant !) </span>
+			</div>
+				
+			
+			<div id='commande-form-wrap'>
+				<div id='overlay'>
+					<div class='overlay-content'>
+						<span class='overlay-header'>
+							<div class='text early'>
+								Pas si vite !
+							</div>
+							<div class='text late'>
+								Oups...
+							</div>
+							<div class='text complete'>
+								C'est tout bon !
+							</div>
+							<div class='text preco'>
+								Merci beaucoulpe !
+							</div>
+						</span>
+						<div class='overlay-img invertable'></div>
+						<span class='overlay-text'>
+							<div class='text early'>
+								<p>Les commandes de crêpes ne sont pas encore ouvertes</p>
+								<!-- <p>Revenez dès &#x1F433; <b>dimanche 10/11 00h00</b> &#x1F433; pour les précommandes !</p> -->
+								<p>Et dès &#x1F433; <b>mardi 12/11 00h00</b> &#x1F433; pour les commandes et le début des livraisons !</p>
+								<p>Il va malheureusement falloir être encore un peu patient.e pour pouvoir profiter de nos superbes poulpocrêpes !</p>
+							</div>
+							<div class='text late'>
+								<p>Tu arrives un peu tard malheureusement &#x1F41A; </p>
+								<p>Les commandes de crêpes c'est fini, mais n'hésite pas à aller voir le reste de nos activités</p>
+								<p>Il reste encore plein de poulpofolies à découvrir !</p>
+							</div>
+							<div class='text complete'>
+								<p>Tes crêpes seront en route dès que possible !</p>
+								<p>(sous réserve de validation ; en cas de refus, tu seras contacté.e)</p>
+								<p>N'hésite pas à parler de nous et en cas de de question ou remarque, <a href='contact.html'>contacte-nous</a> &#x1F990;</p>
+								<p class='helloasso' target='_blank' style='display:none'> Et pour payer sur HelloAsso c'est par <a href='https://www.helloasso.com/associations/bde-ensl/evenements/dsmsssh-2024'>ici</a> !</p>
+							</div>
+							<div class='text preco'>
+								<p>Tes crêpes arriveront dès que possible à partir de mardi !</p>
+								<p>(sous réserve de validation ; en cas de refus, tu seras contacté.e)</p>
+								<p>Si les crêpes te plaisent, n'hésite pas à nous soutenir et à parler de nous &#x1F990;</p>
+							</div>
+						</span>
+					</div>
+				</div>
+				
+				<form id='commande-form'>
+					<div class="title">Commande de crêpes</div>
+					
+					<div class='main-info'>
+						<div class='box name'>
+							<label for='nom'>Nom</label>
+							<div class='input-container'>
+								<input class='textentry' type='text' name='Nom' id='nom' autocomplete=off required placeholder=''>
+								<div class='icon action del'><span class='img invertable' onclick='removeContent(event.target)' title='Réinitialiser la case'></span></div>
+							</div>
+						</div>
+						
+						<div class='box adress'>
+							<label for='adresse'>Adresse de livraison</label>
+							<div class='input-container'>
+								<input class='textentry' type='text' name='Adresse' id='adress' autocomplete=off required placeholder=''>
+								<div class='icon action del'><span class='img invertable' onclick='removeContent(event.target)' title='Réinitialiser la case'></span></div>
+							</div>
+						</div>
+						
+						<div class='box tel'>
+							<label for='tel'>Numéro de téléphone</label>
+							<div class='input-container'>
+								<input class='textentry' type='tel' name='Téléphone' id='tel' autocomplete=off required placeholder='' pattern='((\+[3,4,2,0]{2})|0{1})([ ,\-,.])?[1,6,4,7]{1}(([ ,\-,.])?[0-9]{2}){4}'>
+								<div class='icon action del'><span class='img invertable' onclick='removeContent(event.target)' title='Réinitialiser la case'></span></div>
+							</div>
+						</div>
+						
+						<div class='box time'>
+							<label for='date'>Horaire de livraison souhaitée</label>
+							<div class='disclaimer bigger'><small><i> Livraisons de 7h à 00h </i></small></div>
+							<div class='time-wrap'>
+								<select name='Jour' id='date' class='boxentry' required>
+									<option value='' selected disabled hidden></option>						
+									<option value='Lundi'>Lundi</option>						
+									<option value='Mardi'>Mardi</option>						
+									<option value='Mercredi'>Mercredi</option>
+									<option value='Jeudi'>Jeudi</option>						
+									<option value='Vendredi'>Vendredi</option>						
+									<option value='Samedi'>Samedi</option>						
+								</select>
+								<input type='time' class='boxentry' name='Horaire' min='06:00' id='time' required>
+							</div>
+						</div>
+						
+						<div class='box pay'>
+							<label for='pay'>Méthode de paiement</label>
+							<select name='Paiement' id='pay' class='boxentry' required>
+								<option value='' selected disabled hidden></option>						
+								<option value='HelloAsso'>HelloAsso</option>						
+								<option value='Ardoise'>Ardoise</option>						
+								<option value='Especes'>Espèces</option>						
+							</select>
+						</div>
+						
+						<div class='box ardoise'>
+							<label for='ardoise'>Nom de l'ardoise</label>
+							<div class='input-container'>
+								<input class='textentry' type='text' name='Ardoise' id='ardoise' autocomplete=off placeholder=''>
+								<div class='icon action del'><span class='img invertable' onclick='removeContent(event.target)' title='Réinitialiser la case'></span></div>
+							</div>
+						</div>
+						
+						<div class='box don'>
+							<label for='don'>Promesse de don (obligatoire si + de 10 crêpes commandées)</label>
+							<div class='don-dft'>
+								<select name='Don' id='don' class='boxentry' required>
+									<option value='' selected disabled hidden></option>						
+									<option value='0.5'>0,5€</option>						
+									<option value='1'>1€</option>						
+									<option value='1.5'>1,5€</option>						
+									<option value='2'>2€</option>						
+									<option value='2.5'>2,5€</option>						
+									<option value='3'>3€</option>						
+									<option value='3.5'>3,5€</option>						
+									<option value='4'>4€</option>						
+									<option value='4.5'>4,5€</option>						
+									<option value='5'>5€</option>						
+									<option value='autre'>Autre</option>
+								</select>
+								<span class='don-dft-desc'>/ crêpe</span>
+							</div>
+							<div class='don-spec'>
+								<label for='don-spec'>Don : </label>
+								<div class='input-container'>
+									<input class='textentry' type='number' step=0.01 min=0 name='Don autre' id='don-spec' autocomplete=off placeholder=''>
+									<div class='icon action del'><span class='img invertable' onclick='removeContent(event.target)' title='Réinitialiser la case'></span></div>
+								</div>
+								<span class='don-spec-desc'>€ / crêpe</span>
+							</div>
+						</div>
+						
+						<div class='box comments'>
+							<label for='comments'>Commentaires</label>
+							<textarea class='' rows=6 cols=30 name='Commentaires' id='comments' autocomplete=off placeholder='Remarques additionelles ou détails pour la livraison'></textarea>
+						</div>
+						
+						<div class='box vegan'>
+							<div class='input-container'>
+								<input type='checkbox' name='Vegan' id='vegan' class='check' autocomplete=off placeholder=''>
+								<label for='vegan'>Option Vegan</label>	
+							</div>
+						</div>
+					</div>
+					
+					<div class='crepes-choix-wrap'>
+						<fieldset class='crepes-choix'>
+							<legend>Choix des crêpes</legend>
+							<div class='crepes-container-wrapper'>
+								<div class='container-crepe type1'>
+									<div class='container-left'>
+										<div class='container-left-top container-section'>
+											<div class='subsubwrap'>
+												<label class='crepe-lbl' for='type1'>Garniture</label>
+												
+												<div class='icon info'></div>
+											</div>
+											
+											<div class='subsubwrap'>
+												<div class='input-container'>
+													<input class='textentry crepe-type crepe' required name='Type 1' list='type1' placeholder='' autocomplete=off required>
+													<datalist id='type1'>
+													</datalist>
+													<div class='icon action del'><span class='img invertable' onclick='removeContent(event.target)' title='Réinitialiser la case'></span></div>
+												</div>
+												
+												<div class='icon merge'></div>
+											</div>
+										</div>
+										
+										<div class='container-left-bottom container-section'>
+											<label class='crepe-lbl' for='quantite1'>Quantité</label>
+											<input type='number' class='textentry amount crepe' name='Quantité 1' id='quantite1' min=1 max=35 placeholder=''>
+										</div>
+									</div>
+									
+									<div class='container-right container-section'>
+										<div class='icon action quit'></div>
+									</div>
+								</div>
+							</div>
+							
+							<div class='crepe-footer'>
+								<div class='footer-left'>
+									<span class='update'><input type='button' class='update-img invertable' id='add' value='' onclick='addEl()' title='Ajouter un type de crêpe'></span>
+									<span class='update'><input type='button' class='update-img invertable' id='reset' value='' onclick='resetting({type:"change"})' title='Remettre à 0 les choix de crêpe'></span>
+								</div>
+								
+								<div class='footer-right'>
+									<label class='crepe-lbl'>Total</label>
+									<input disabled class='input textentry amount'id='total'>
+									<div class='action quit'></div>
+								</div>
+							</div>
+						</fieldset>
+					</div>
+					
+					<div class='end-info'>
+						<div class='box tombola'>
+							<div class='tombola-one'>
+								<div class='input-container'>
+									<input type='checkbox' name='Tombola' id='tombola' class='check' autocomplete=off placeholder=''>
+									<label for='tombola'>Participer à la tombola</label>	
+								</div>
+								
+								<div class='icon info permanent'>
+									<span class='img invertable' onclick='toggleFade(event.target)'></span>
+									<span class='infotext'>
+										<div class='icon action del invertable'>
+											<span class='img' onclick='toggleFade(event.target)'></span>
+										</div>
+										<div>
+											<h2> Informations sur la tombola </h2>
+											<p> Tout le monde peut participer gratuitement, et gagne automatiquement un ticket à chaque crêpe commandée ! </p>
+											<p> <b>ATTENTION</b>, la tombola est <b>réservée aux membres de l'ENS</b>. Tu dois posséder un mail de l'ENS pour pouvoir participer ! </p>
+											<p> Pour plus de précisions, viens <a href='tombola.html' target='_blank'>consulter toutes les modalités</a> et <a href='tombola.html' target='_blank'>admirer nos lots</a> ! </p>
+										</div>
+									</span>
+								</div>
+							</div>
+							
+							<div class='tombola-two'>
+								<span>
+									<span>Ta commande te permet pour l'instant de participer</span>
+									<span class='participations'>0</span>
+									<span> fois à la tombola !</span>
+									<!-- <span class='nb-restant'>5</span> -->
+								</span>
+							</div>
+							
+							<div class='tombola-three'>
+								<label for='Mail'>Mail ENS : </label>
+								<div class='input-container'>
+									<input class='textentry' type='email' pattern="([a-zA-Z0-9,.,_,\+,\-,%])+@ens-lyon\.fr" name='Mail' id='mail' autocomplete=off placeholder=''>
+									<div class='icon action del'><span class='img invertable' onclick='removeContent(event.target)' title='Réinitialiser la case'></span></div>
+								</div>
+								<div class='free-part-wrap'>
+									<input type='checkbox' name='FreePart' id='free-part' class='check' autocomplete=off placeholder=''>
+									<label for='free-part'>Inclure la participation offerte</label>
+								</div>
+								<div class='disclaimer'><small><i> Ne sera pris en compte que si la participation offerte n'a pas encore été utilisée </i></small></div>
+							</div>
+						</div>
+						
+						<input type='submit' value='Envoyer' id='submitting'>
+						<span class='reset-all update'> <input type='reset' class='invertable update-img' id='reset-all' value='' onclick='resetting(event)' title='Réinitialiser le formulaire'></span>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div id='footer' class='englob'>
+			<div class='footer-section'>
+				<div class='external'>
+					<span class='logo insta invertable' title='Retrouvez-nous sur Instagram'>
+						<a href='https://www.instagram.com/dsmsssh_2024/' target='_blank'> </a>
+					</span>
+					<span class='text insta'><a href='https://www.instagram.com/dsmsssh_2024/' target='_blank'>Retrouvez nous sur Instagram !</a></span>
+				</div>
+			</div>
+			
+			<div class='footer-section'>
+				<div class='external'>
+					<span class='logo contact invertable' title='Contactez-nous'>
+						<a href='contact.html'> </a>
+					</span>
+					<span class='text contact'><a href='contact.html'>Contactez-nous</a></span>
+				</div>
+			</div>
+		</div>
+	
+		<script>
+			document.getElementById('commande-form').addEventListener('submit', function(e) {
+  				e.preventDefault();
+
+  				const form = e.target;
+  				const data = new FormData(form);
+  				const url = "https://script.google.com/macros/s/AKfycbyOOKRnIxmfFqOrNCh_rpxj-imTzKYnbIm7zVc3sOesCqtPxdvcnJFC1_YnxCzzCz1AkQ/exec";
+
+  				fetch(url, {
+   					method: "POST",
+    				mode: "no-cors",
+    				body: data
+  				})
+  				.then(() => {
+    				alert("Commande envoyée avec succès !");
+    				HTMLFormElement.prototype.reset.call(form);
+  				})
+  				.catch(err => {
+   	 				alert("Erreur lors de l’envoi : " + err.message);
+  				});
+			});
+		</script>
+	</body>
+</html>
