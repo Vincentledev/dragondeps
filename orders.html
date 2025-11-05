@@ -1,5 +1,4 @@
 <!-- Code par Marc Zuccalli @marc_zcl - 2024 -->
-<!-- Code Travaillé et mis à jour par Vincent Medilien vincent.medilien@ens-lyon.fr en 2025 -->
 
 <!DOCTYPE html>
 <html>
@@ -77,7 +76,7 @@
 				.allerg {
 						white-space: normal;
 						line-height: 1.25em;
-						margin-bottom: .5em;
+						margin-bottom: .5em;²
 						}
 				
 				/* unavailable ones */
@@ -220,7 +219,7 @@
 					#overlay[complete] .text.complete {display: block}
 					#overlay[preco] .text.preco {display: block}
 					
-					#overlay:is([early],[late]) .overlay-img {background-image: url(medias/images/unhappy_octopus.png);}
+					#overlay:is([early],[late],[treve]) .overlay-img {background-image: url(medias/images/unhappy_octopus.png);}
 					#overlay:is([complete],[preco]) .overlay-img {background-image: url(medias/images/poulpe_livreur.png);}
 					
 					
@@ -753,7 +752,7 @@
 	<body>
 	    <div id='banner'>
 	        <span class='banner-img'>
-	            <a href='https://oceandeps.fr'><img src='medias/images/logo.png'></a>
+	            <a href='https://www.dragondeps.fr'><img src='medias/images/logo.png'></a>
 	        </span>
 			<span class='banner-text'>
 				Bienvenue chez l'équipe Smashgard DSMSSSH !
@@ -946,6 +945,9 @@
 							<div class='text complete'>
 								C'est tout bon !
 							</div>
+							<div class='text treve'>
+								Attends demain !
+							</div>
 							<div class='text preco'>
 								Merci beaucoulpe !
 							</div>
@@ -969,6 +971,10 @@
 								<p>N'hésite pas à parler de nous et en cas de de question ou remarque, <a href='contact.html'>contacte-nous</a> &#x1F990;</p>
 								<p class='helloasso' target='_blank' style='display:none'> Et pour payer sur HelloAsso c'est par <a href='https://www.helloasso.com/associations/bde-ensl/evenements/dsmsssh-2024'>ici</a> !</p>
 							</div>
+							<div class='text treve'>
+								<p>C'est la trêve !</p>
+								<p>Ce soir, y'a la première festive ; l'équipe organisatrice à besoin de s'investir à 100% pour l'installer. </p>
+								<p>Tu pourras recommencer à commander tes crêoes dès (inserer date)</p>
 							<div class='text preco'>
 								<p>Tes crêpes arriveront dès que possible à partir de mardi !</p>
 								<p>(sous réserve de validation ; en cas de refus, tu seras contacté.e)</p>
@@ -1044,7 +1050,7 @@
 						<div class='box don'>
 							<label for='don'>Promesse de don (obligatoire si + de 10 crêpes commandées)</label>
 							<div class='don-dft'>
-								<select name='Don' id='don' class='boxentry' required>
+								<select name='Don' id='don' class='boxentry'>
 									<option value='' selected disabled hidden></option>						
 									<option value='0.5'>0,5€</option>						
 									<option value='1'>1€</option>						
@@ -1204,15 +1210,14 @@
 
   				const form = e.target;
   				const data = new FormData(form);
-  				const url = "https://script.google.com/macros/s/AKfycbyOOKRnIxmfFqOrNCh_rpxj-imTzKYnbIm7zVc3sOesCqtPxdvcnJFC1_YnxCzzCz1AkQ/exec";
+  				const url = "https://script.google.com/macros/s/AKfycbz6tOYwZ_7Erc_PHMbrtXIMcV6VKKae_CW9hn46A6s70JdeBWXXL6blhHk4x51rQ4kh2g/exec";
 
-  				fetch(url, {
-   					method: "POST",
-    				mode: "no-cors",
-    				body: data
-  				})
-  				.then(() => {
-    				alert("Commande envoyée avec succès !");
+  				try {
+    				const response = await fetch(url, { method: "POST", body: data });
+    				const result = await response.json();
+  				
+  				
+    				alert("Merci pour ta commande ! Un livreur du DSM4SH va te livrer dans les meilleurs délais !!!! RAAAAAAAAAAAAAAAAAAH");
     				HTMLFormElement.prototype.reset.call(form);
   				})
   				.catch(err => {
@@ -1273,6 +1278,61 @@
   				crepesContainer.querySelector(".crepe-quantite").addEventListener("input", updateTotal);
   				crepesContainer.querySelector(".remove-crepe").addEventListener("click", removeCrepe);
   				updateTotal();
+			});
+
+
+			document.addEventListener("DOMContentLoaded", () => {
+  				const overlay = document.getElementById("overlay");
+
+  				// === Dates de commande ===
+  				const now = new Date();
+  				const openOrder  = new Date("2025-11-10T00:00:00");   // ouverture commandes
+  				const closeOrder = new Date("2025-11-15T23:59:59");   // fermeture commandes
+  				const breakStart = new Date("2025-11-13T12:15:00"); // début trêve
+  				const breakEnd = new Date("2025-11-14T10:00:00"); // fin trêve
+
+  				// === Déterminer l'état ===
+  				let state;
+  				if (now < openOrder) {
+    				state = "early";       // Trop tôt
+  				} else if (now >= openOrder && now <= closeOrder) {
+    				state = "complete";    // Commandes ouvertes
+    			} else if(now >= breakStart && now <= breakEnd) {
+    				state = "treve";       // trêve des crêpes
+  				} else {
+    				state = "late";        // Trop tard
+  				}
+
+  				// === Fonction d'affichage ===
+  				function setOverlayState(state) {
+  					// On nettoie les anciens attributs
+    				overlay.removeAttribute("early");
+    				overlay.removeAttribute("late");
+    				overlay.removeAttribute("complete");
+    				overlay.removeAttribute("active");
+
+    				// On applique le nouvel état
+    				overlay.setAttribute("active", "");
+    				overlay.setAttribute(state, "");
+  				}
+
+  				// === Affichage automatique selon la date ===
+  				setOverlayState(state);
+
+  				// === Fermeture de l’overlay au clic sur le fond ===
+  				overlay.addEventListener("click", (e) => {
+    				if (e.target === overlay) {
+      					overlay.removeAttribute("active");
+      					overlay.removeAttribute("early");
+      					overlay.removeAttribute("late");
+      					overlay.removeAttribute("complete");
+    				}
+  				});
+
+  // === Exemple : pour l’afficher manuellement après une action ===
+  // function showCompleteOverlay() {
+  //   setOverlayState("complete");
+  // }
 			});
 
 		</script>
