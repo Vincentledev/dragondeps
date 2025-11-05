@@ -219,7 +219,7 @@
 					#overlay[complete] .text.complete {display: block}
 					#overlay[preco] .text.preco {display: block}
 					
-					#overlay:is([early],[late],[treve]) .overlay-img {background-image: url(medias/images/unhappy_octopus.png);}
+					#overlay:is([early],[late]) .overlay-img {background-image: url(medias/images/unhappy_octopus.png);}
 					#overlay:is([complete],[preco]) .overlay-img {background-image: url(medias/images/poulpe_livreur.png);}
 					
 					
@@ -752,7 +752,7 @@
 	<body>
 	    <div id='banner'>
 	        <span class='banner-img'>
-	            <a href='https://www.dragondeps.fr'><img src='medias/images/logo.png'></a>
+	            <a href='https://oceandeps.fr'><img src='medias/images/logo.png'></a>
 	        </span>
 			<span class='banner-text'>
 				Bienvenue chez l'équipe Smashgard DSMSSSH !
@@ -787,16 +787,6 @@
 	        </div>
 	    </div>
 	    
-		<div id='background'>
-			<div id='1' class='bubble'></div>
-			<div id='2' class='bubble'></div>
-			<div id='3' class='bubble'></div>
-			<div id='4' class='bubble'></div>
-			<div id='5' class='bubble'></div>
-			<div id='6' class='bubble'></div>
-			<div id='7' class='bubble'></div>
-			<div id='8' class='bubble'></div>
-		</div>
 		
 		<div id='warning'>
 			<div class='warning-wrap englob'>
@@ -945,9 +935,6 @@
 							<div class='text complete'>
 								C'est tout bon !
 							</div>
-							<div class='text treve'>
-								Attends demain !
-							</div>
 							<div class='text preco'>
 								Merci beaucoulpe !
 							</div>
@@ -971,10 +958,6 @@
 								<p>N'hésite pas à parler de nous et en cas de de question ou remarque, <a href='contact.html'>contacte-nous</a> &#x1F990;</p>
 								<p class='helloasso' target='_blank' style='display:none'> Et pour payer sur HelloAsso c'est par <a href='https://www.helloasso.com/associations/bde-ensl/evenements/dsmsssh-2024'>ici</a> !</p>
 							</div>
-							<div class='text treve'>
-								<p>C'est la trêve !</p>
-								<p>Ce soir, y'a la première festive ; l'équipe organisatrice à besoin de s'investir à 100% pour l'installer. </p>
-								<p>Tu pourras recommencer à commander tes crêoes dès (inserer date)</p>
 							<div class='text preco'>
 								<p>Tes crêpes arriveront dès que possible à partir de mardi !</p>
 								<p>(sous réserve de validation ; en cas de refus, tu seras contacté.e)</p>
@@ -1205,25 +1188,56 @@
 		</div>
 	
 		<script>
-			document.getElementById('commande-form').addEventListener('submit', function(e) {
+			document.getElementById('commande-form').addEventListener('submit', async (e) => {
   				e.preventDefault();
 
   				const form = e.target;
   				const data = new FormData(form);
-  				const url = "https://script.google.com/macros/s/AKfycbz6tOYwZ_7Erc_PHMbrtXIMcV6VKKae_CW9hn46A6s70JdeBWXXL6blhHk4x51rQ4kh2g/exec";
+  				const url = "https://script.google.com/macros/s/TON_URL/exec";
+
+  				// 🔹 On ajoute ou crée un message de statut visuel
+  				let statusMsg = document.getElementById("status-message");
+  				if (!statusMsg) {
+    				statusMsg = document.createElement("div");	
+    				statusMsg.id = "status-message";
+		    		statusMsg.style.position = "fixed";
+				    statusMsg.style.bottom = "20px";
+			    	statusMsg.style.left = "50%";
+			    	statusMsg.style.transform = "translateX(-50%)";
+	    			statusMsg.style.background = "rgba(0, 200, 0, 0.9)";
+		   	 		statusMsg.style.color = "white";
+		    		statusMsg.style.padding = "1em 2em";
+	    			statusMsg.style.borderRadius = "12px";
+	    			statusMsg.style.fontSize = "1.2em";
+	    			statusMsg.style.zIndex = "9999";
+	    			statusMsg.style.transition = "opacity 0.6s ease";
+	    			document.body.appendChild(statusMsg);
+  				}
+
+  		// 🕒 Message d’attente
+  				statusMsg.textContent = "📦 Envoi de ta commande...";
+  				statusMsg.style.opacity = "1";
+  				statusMsg.style.background = "rgba(0, 100, 255, 0.9)";
 
   				try {
-    				const response = await fetch(url, { method: "POST", body: data });
-    				const result = await response.json();
-  				
-  				
-    				alert("Merci pour ta commande ! Un livreur du DSM4SH va te livrer dans les meilleurs délais !!!! RAAAAAAAAAAAAAAAAAAH");
-    				HTMLFormElement.prototype.reset.call(form);
-  				})
-  				.catch(err => {
-   	 				alert("Erreur lors de l’envoi : " + err.message);
-  				});
+    				await fetch(url, { method: "POST", mode: "no-cors", body: data });
+    				form.reset();
+
+    // ✅ Succès
+    			statusMsg.textContent = "✅ Merci pour ta commande ! Le livreur du DSM4SH est en route ! 🚴‍♂️💨";
+    			statusMsg.style.background = "rgba(0, 200, 0, 0.9)";
+  				} catch (err) {
+    // ❌ Erreur
+    			statusMsg.textContent = "⚠️ Erreur lors de l’envoi : " + err.message;
+    			statusMsg.style.background = "rgba(255, 60, 60, 0.9)";
+  				}	
+
+  // ⏳ Disparition douce après 4 secondes
+  				setTimeout(() => {
+    				statusMsg.style.opacity = "0";
+  				}, 4000);
 			});
+
 
 
 
@@ -1286,10 +1300,8 @@
 
   				// === Dates de commande ===
   				const now = new Date();
-  				const openOrder  = new Date("2025-11-10T00:00:00");   // ouverture commandes
+  				const openOrder  = new Date("2025-11-04T00:00:00");   // ouverture commandes
   				const closeOrder = new Date("2025-11-15T23:59:59");   // fermeture commandes
-  				const breakStart = new Date("2025-11-13T12:15:00"); // début trêve
-  				const breakEnd = new Date("2025-11-14T10:00:00"); // fin trêve
 
   				// === Déterminer l'état ===
   				let state;
@@ -1297,8 +1309,6 @@
     				state = "early";       // Trop tôt
   				} else if (now >= openOrder && now <= closeOrder) {
     				state = "complete";    // Commandes ouvertes
-    			} else if(now >= breakStart && now <= breakEnd) {
-    				state = "treve";       // trêve des crêpes
   				} else {
     				state = "late";        // Trop tard
   				}
