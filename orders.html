@@ -219,7 +219,7 @@
 					#overlay[complete] .text.complete {display: block}
 					#overlay[preco] .text.preco {display: block}
 					
-					#overlay:is([early],[late]) .overlay-img {background-image: url(medias/images/unhappy_octopus.png);}
+					#overlay:is([early],[late]) .overlay-img {background-image: url(medias/images/paint.png);}
 					#overlay:is([complete],[preco]) .overlay-img {background-image: url(medias/images/poulpe_livreur.png);}
 					
 					
@@ -1193,7 +1193,16 @@
 
   				const form = e.target;
   				const data = new FormData(form);
-  				const url = "https://script.google.com/macros/s/TON_URL/exec";
+
+  				// Récupération des types et quantités
+  				const types = [...form.querySelectorAll('input[name="type[]"]')].map(i => i.value);
+  				const quantites = [...form.querySelectorAll('input[name="quantite[]"]')].map(i => i.value);
+
+  				// Ajout des champs sous forme JSON
+  				data.append('Types', JSON.stringify(types));
+  				data.append('Quantites', JSON.stringify(quantites));
+
+  				const url = "https://script.google.com/macros/s/AKfycbzThLUuEbtH8rJdWZDykbc3IZul4udX8QTtMhwgw_pSVNyp-VV_ceYa-NbgN2TXD8jVaw/exec";
 
   				// 🔹 On ajoute ou crée un message de statut visuel
   				let statusMsg = document.getElementById("status-message");
@@ -1300,7 +1309,7 @@
 
   				// === Dates de commande ===
   				const now = new Date();
-  				const openOrder  = new Date("2025-11-04T00:00:00");   // ouverture commandes
+  				const openOrder  = new Date("2025-11-10T00:00:00");   // ouverture commandes
   				const closeOrder = new Date("2025-11-15T23:59:59");   // fermeture commandes
 
   				// === Déterminer l'état ===
