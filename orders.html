@@ -982,7 +982,7 @@
 						
 						<div class='box time'>
 							<label for='date'>Horaire de livraison souhaitée</label>
-							<div class='disclaimer bigger'><small><i> Livraisons de 7h à 00h </i></small></div>
+							<div class='disclaimer bigger'><small><i> Livraisons de 7h à 02h </i></small></div>
 							<div class='time-wrap'>
 								<select name='Jour' id='date' class='boxentry' required>
 									<option value='' selected disabled hidden></option>						
@@ -993,7 +993,7 @@
 									<option value='Vendredi'>Vendredi</option>						
 									<option value='Samedi'>Samedi</option>						
 								</select>
-								<input type='time' class='boxentry' name='Horaire' min='06:00' id='time' required>
+								<input type='time' class='boxentry' name='Horaire' id='time' required>
 							</div>
 						</div>
 						
@@ -1098,53 +1098,7 @@
 					</div>
 
 
-					<div class='end-info'>
-						<div class='box tombola'>
-							<div class='tombola-one'>
-								<div class='input-container'>
-									<input type='checkbox' name='Tombola' id='tombola' class='check' autocomplete=off placeholder=''>
-									<label for='tombola'>Participer à la tombola</label>	
-								</div>
-								
-								<div class='icon info permanent'>
-									<span class='img invertable' onclick='toggleFade(event.target)'></span>
-									<span class='infotext'>
-										<div class='icon action del invertable'>
-											<span class='img' onclick='toggleFade(event.target)'></span>
-										</div>
-										<div>
-											<h2> Informations sur la tombola </h2>
-											<p> Tout le monde peut participer gratuitement, et gagne automatiquement un ticket à chaque crêpe commandée ! </p>
-											<p> <b>ATTENTION</b>, la tombola est <b>réservée aux membres de l'ENS</b>. Tu dois posséder un mail de l'ENS pour pouvoir participer ! </p>
-											<p> Pour plus de précisions, viens <a href='tombola.html' target='_blank'>consulter toutes les modalités</a> et <a href='tombola.html' target='_blank'>admirer nos lots</a> ! </p>
-										</div>
-									</span>
-								</div>
-							</div>
-							
-							<div class='tombola-two'>
-								<span>
-									<span>Ta commande te permet pour l'instant de participer</span>
-									<span class='participations'>0</span>
-									<span> fois à la tombola !</span>
-									<!-- <span class='nb-restant'>5</span> -->
-								</span>
-							</div>
-							
-							<div class='tombola-three'>
-								<label for='Mail'>Mail ENS : </label>
-								<div class='input-container'>
-									<input class='textentry' type='email' pattern="([a-zA-Z0-9,.,_,\+,\-,%])+@ens-lyon\.fr" name='Mail' id='mail' autocomplete=off placeholder=''>
-									<div class='icon action del'><span class='img invertable' onclick='removeContent(event.target)' title='Réinitialiser la case'></span></div>
-								</div>
-								<div class='free-part-wrap'>
-									<input type='checkbox' name='FreePart' id='free-part' class='check' autocomplete=off placeholder=''>
-									<label for='free-part'>Inclure la participation offerte</label>
-								</div>
-								<div class='disclaimer'><small><i> Ne sera pris en compte que si la participation offerte n'a pas encore été utilisée </i></small></div>
-							</div>
-						</div>
-						
+					<div class='end-info'>	
 						<input type='submit' value='Envoyer' id='submitting'>
 						<span class='reset-all update'> <input type='reset' class='invertable update-img' id='reset-all' value='' onclick='resetting(event)' title='Réinitialiser le formulaire'></span>
 					</div>
@@ -1342,6 +1296,7 @@
 		</script>
 	</body>
 </html>
+
 
 
 
