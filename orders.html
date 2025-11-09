@@ -979,7 +979,15 @@
 								<div class='icon action del'><span class='img invertable' onclick='removeContent(event.target)' title='Réinitialiser la case'></span></div>
 							</div>
 						</div>
-						
+
+						<div class='box tel'>
+							<label for='ardoise'> Ardoise (si paiement par ardoise)</label>
+							<div class='input-container'>
+								<input class='textentry' type='text' name='Ardoise' id='ard' autocomplete=off>
+								<div class='icon action del'><span class='img invertable' onclick='removeContent(event.target)' title='Réinitialiser la case'></span></div>
+							</div>
+						</div>
+
 						<div class='box time'>
 							<label for='date'>Horaire de livraison souhaitée</label>
 							<div class='disclaimer bigger'><small><i> Livraisons de 7h à 02h </i></small></div>
@@ -1005,10 +1013,6 @@
 								<option value='Ardoise'>Ardoise</option>						
 								<option value='Especes'>Espèces</option>						
 							</select>
-						</div>
-
-						<div class='box ardoise'>
-							<input class='textentry', type='text' name='Ardoise', id='ardoise'>
 						</div>
 						
 						<div class='box ardoise'>
@@ -1308,6 +1312,7 @@
 		</script>
 	</body>
 </html>
+
 
 
 
